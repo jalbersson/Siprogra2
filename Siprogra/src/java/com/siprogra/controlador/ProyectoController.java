@@ -45,8 +45,8 @@ import org.primefaces.model.UploadedFile;
 
 @ManagedBean
 @SessionScoped
-public class ProyectoController implements Serializable {
-
+public class ProyectoController implements Serializable 
+{
     @EJB
     private ProcesodegradoFacade ejbProcesogrado;
     private Procesodegrado objProcesogrado;
@@ -71,6 +71,10 @@ public class ProyectoController implements Serializable {
     private RolFacade ejbRol;
     private Rol objRol;
     private List<Rol> lstRol;
+    @EJB
+    private FlujoFacade ejbFlujo;
+    private Flujo objFlujo;
+    private List<Flujo> lstFlujo;
 
     private int cedulaEstudiante;
 
@@ -98,10 +102,19 @@ public class ProyectoController implements Serializable {
     private final String destino = "/home/jalber/NetBeansProjects/Siprogra/SiProGra/web/resources/pdf/";
     private UploadedFile file;
     private boolean seleccionar = false;
-
-    /**
-     * Creates a new instance of ProyectoController
-     */
+    private String director;
+    private List<Usuario> lstEstudiantePro;
+    private List<Procesodegrado> lstProyectosDocente;
+    private List<Procesodegrado> lstProyectosEvaluador;
+    private List<Procesodegrado> lstProyectosJefeDepto;
+    private List<Procesodegrado> lstProyectosDepto;
+    private List<Procesodegrado> lstProyectosCoordinador;
+    private boolean evaluado;
+    private FormatoA obtenerFormatoA;
+    private String carta;
+    private String anteproyecto;
+    private boolean ideaAprobada;
+    
     public ProyectoController() {
         lstProcesogrado = new ArrayList<>();
 
@@ -144,6 +157,7 @@ public class ProyectoController implements Serializable {
         objParametro = new Parametro();
         objProductotrabajo = new Productodetrabajo();
         objUsuario = new Usuario();
+        seleccionar = false;
     }
 
     public void borrarEstudiante() {
@@ -186,7 +200,8 @@ public class ProyectoController implements Serializable {
         objProcesogrado.setProductodetrabajoList(new ArrayList<Productodetrabajo>());
         obtenerProductotrabajo("revision de la idea del proyecto");
         objProcesogrado.getProductodetrabajoList().add(objProductotrabajo);
-        objProcesogrado.setProcestado(new BigInteger(""+1));
+        //objProcesogrado.setProcestado(new BigInteger(""+4));
+
         ejbProcesogrado.edit(objProcesogrado);
 
         lstParametro = obtenerParametros(objProductotrabajo.getProid().intValue());
@@ -211,15 +226,10 @@ public class ProyectoController implements Serializable {
         objContenido.setParid(objParametro);
         //objContenido.setUsuid(objUsuario);
         ejbContenido.create(objContenido);
-        objParametro = obtenerParametro("Correcciones");
-        objContenido.setConid(new BigDecimal(numeroAleatorio()));
-        objContenido.setCondatos("0");
-        objContenido.setParid(objParametro);
-        //objContenido.setUsuid(objUsuario);
-        ejbContenido.create(objContenido);
 
+        objProcesogrado = null;
         RequestContext.getCurrentInstance().execute("PF('RevisionIdeaDialog').hide()");
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Crear", "Registro exitoso"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Crear", "Revision exitosa"));
     }
     public void crearActaAprobacionAnteproyecto()
     {
@@ -333,6 +343,9 @@ public class ProyectoController implements Serializable {
         objProcesogrado.setProductodetrabajoList(new ArrayList<Productodetrabajo>());
         objProcesogrado.getProductodetrabajoList().add(objProductotrabajo);
         objProcesogrado.setProcestado(new BigInteger(""+0));
+        lstFlujo = ejbFlujo.findAll();
+        objFlujo = lstFlujo.get(1);
+        objProcesogrado.setFluid(objFlujo);
         ejbProcesogrado.create(objProcesogrado);
 
         lstParametro = obtenerParametros(objProductotrabajo.getProid().intValue());
@@ -341,6 +354,7 @@ public class ProyectoController implements Serializable {
         objContenido.setConid(new BigDecimal(numeroAleatorio()));
         objContenido.setCondatos(formatoA.getTitulo());
         objContenido.setParid(objParametro);
+        objContenido.setProcid(objProcesogrado);
         //objContenido.setUsuid(objUsuario);
         ejbContenido.create(objContenido);
 
@@ -348,6 +362,7 @@ public class ProyectoController implements Serializable {
         objContenido.setConid(new BigDecimal(numeroAleatorio()));
         objContenido.setCondatos(objUsuario.getUsunombres() + objUsuario.getUsuapellidos());
         objContenido.setParid(objParametro);
+        objContenido.setProcid(objProcesogrado);
         //objContenido.setUsuid(objUsuario);
         ejbContenido.create(objContenido);
 
@@ -355,6 +370,7 @@ public class ProyectoController implements Serializable {
         objContenido.setConid(new BigDecimal(numeroAleatorio()));
         objContenido.setCondatos(formatoA.getTiempoEstimado());
         objContenido.setParid(objParametro);
+        objContenido.setProcid(objProcesogrado);
         //objContenido.setUsuid(objUsuario);
         ejbContenido.create(objContenido);
 
@@ -362,6 +378,7 @@ public class ProyectoController implements Serializable {
         objContenido.setConid(new BigDecimal(numeroAleatorio()));
         objContenido.setCondatos(formatoA.getRecursos());
         objContenido.setParid(objParametro);
+        objContenido.setProcid(objProcesogrado);
         //objContenido.setUsuid(objUsuario);
         ejbContenido.create(objContenido);
 
@@ -369,6 +386,7 @@ public class ProyectoController implements Serializable {
         objContenido.setConid(new BigDecimal(numeroAleatorio()));
         objContenido.setCondatos(formatoA.getFuentesFinanciacion());
         objContenido.setParid(objParametro);
+        objContenido.setProcid(objProcesogrado);
         //objContenido.setUsuid(objUsuario);
         ejbContenido.create(objContenido);
 
@@ -376,6 +394,7 @@ public class ProyectoController implements Serializable {
         objContenido.setConid(new BigDecimal(numeroAleatorio()));
         objContenido.setCondatos(formatoA.getObjetivos());
         objContenido.setParid(objParametro);
+        objContenido.setProcid(objProcesogrado);
         //objContenido.setUsuid(objUsuario);
         ejbContenido.create(objContenido);
 
@@ -383,6 +402,7 @@ public class ProyectoController implements Serializable {
         objContenido.setConid(new BigDecimal(numeroAleatorio()));
         objContenido.setCondatos(formatoA.getContribucion());
         objContenido.setParid(objParametro);
+        objContenido.setProcid(objProcesogrado);
         //objContenido.setUsuid(objUsuario);
         ejbContenido.create(objContenido);
 
@@ -390,6 +410,7 @@ public class ProyectoController implements Serializable {
         objContenido.setConid(new BigDecimal(numeroAleatorio()));
         objContenido.setCondatos(formatoA.getCondicionesEntrega());
         objContenido.setParid(objParametro);
+        objContenido.setProcid(objProcesogrado);
         //objContenido.setUsuid(objUsuario);
         ejbContenido.create(objContenido);
 
@@ -397,6 +418,7 @@ public class ProyectoController implements Serializable {
         objContenido.setConid(new BigDecimal(numeroAleatorio()));
         objContenido.setCondatos(formatoA.getObservaciones());
         objContenido.setParid(objParametro);
+        objContenido.setProcid(objProcesogrado);
         //objContenido.setUsuid(objUsuario);
         ejbContenido.create(objContenido);
 
@@ -404,10 +426,11 @@ public class ProyectoController implements Serializable {
         objContenido.setConid(new BigDecimal(numeroAleatorio()));
         objContenido.setCondatos(String.valueOf(formatoA.getNumeroEstudiantes()));
         objContenido.setParid(objParametro);
+        objContenido.setProcid(objProcesogrado);
         //objContenido.setUsuid(objUsuario);
         ejbContenido.create(objContenido);
 
-        //notificarDepartamento();d
+        //notificarDepartamento();
         RequestContext.getCurrentInstance().execute("PF('ProyectoCreateDialog').hide()");
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Crear", "Registro exitoso"));
     }
@@ -541,17 +564,20 @@ public class ProyectoController implements Serializable {
         this.vista = vista;
     }
 
-    public void agregarEstudiante() {
+    public void agregarEstudiante() 
+    {
         lstUsuario = ejbUsuario.findAll();
         boolean flag = false;
-        for (Usuario estudiante : lstUsuario) {
-            if (cedulaEstudiante == estudiante.getUsucedula().intValue()) {
+        for (Usuario estudiante : lstUsuario) 
+        {
+            if (cedulaEstudiante == estudiante.getUsucedula().intValue()) 
+            {
                 objUsuario = estudiante;
                 flag = true;
             }
         }
-
-        if (flag) {
+        if (flag) 
+        {
             objProcesogrado.getUsuarioList().add(objUsuario);
 
             ejbProcesogrado.edit(objProcesogrado);
@@ -561,7 +587,6 @@ public class ProyectoController implements Serializable {
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Crear", "la cedula ingresada no pertenece a un estudiante"));
         }
-
     }
 
     public void sendMail() {
@@ -594,32 +619,11 @@ public class ProyectoController implements Serializable {
         }
     }
 
-    public List<String> autocompleteCedula(String query) {
-        lstUsuario = ejbUsuario.findAll();
-        List<String> lstCedulas = new ArrayList<>();
-        for (Usuario estudiante : lstUsuario) {
-            String cedula = estudiante.getUsucedula().toString();
-            if (cedula.contains(query)) {
-                lstCedulas.add(cedula);
-            }
-        }
-        return lstCedulas;
-    }
-
     private int numeroAleatorio() {
         int valorInicial = 100;
         int valorFinal = 99999;
         return (int) (Math.random() * (valorFinal - valorInicial + 1) + valorInicial);
     }
-
-    public void editar() {
-        ejbProcesogrado.edit(objProcesogrado);
-    }
-
-    public void borrar() {
-        ejbProcesogrado.remove(objProcesogrado);
-    }
-
     public List<Procesodegrado> getLstProcesogrado() {
         return ejbProcesogrado.findAll();
     }
@@ -714,5 +718,211 @@ public class ProyectoController implements Serializable {
     public void setFormatoG(FormatoG formatoG) {
         this.formatoG = formatoG;
     }
+    public void prepareAddEstudiante() 
+    {
+        lstUsuario = ejbUsuario.findAll();
+        objUsuario = null;
+    }
+     public void prepareAsignarEvaluador() 
+     {
+        if (!objProcesogrado.getUsuarioList().isEmpty()) 
+        {
+            director = objProcesogrado.getUsuarioList().get(0).getUsunombreusuario() + " " + objProcesogrado.getUsuarioList().get(0).getUsuapellidos();
+        }
+    }
+    public void prepareAddFormatoB() 
+    {
+
+    }
+    public void prepareRemitirSecretaria() 
+    {
+
+    }
+    public void asignarEvaluador() 
+    {
+
+    }
+    public void crearFormatoB() 
+    {
+
+    }
+    public void editar() {
+        ejbProcesogrado.edit(objProcesogrado);
+        RequestContext.getCurrentInstance().execute("PF('ProyectoEditDialog').hide()");
+        objProcesogrado = null;
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Crear", "Se a actualizado exitosamente"));
+    }
+
+    public void borrar() {
+        ejbProcesogrado.remove(objProcesogrado);
+        objProcesogrado = null;
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Crear", "Se a eliminado exitosamente"));
+    }
+
+    public List<Procesodegrado> getLstProyectosDocente() {
+        this.obtenerUsuario();
+        lstProyectosDocente = objUsuario.getProcesodegradoList();
+        return lstProyectosDocente;
+    }
+    public void setLstProyectosEvaluador(List<Procesodegrado> lstProyectosEvaluador) {
+        this.lstProyectosEvaluador = lstProyectosEvaluador;
+    }
+
+    public List<Procesodegrado> getLstProyectosJefeDepto() {
+        List<Procesodegrado> lstProy = ejbProcesogrado.findAll();
+        lstProyectosJefeDepto = new ArrayList<>();
+        for (Procesodegrado proy : lstProy) {
+            int i = proy.getProductodetrabajoList().size();
+            if (i != 0) {
+                if (proy.getProductodetrabajoList().get(i - 1).getPronombre().contains("Formato de la de la idea de anteproyecto")) {
+                    lstProyectosJefeDepto.add(proy);
+                }
+            }
+        }
+        return lstProyectosJefeDepto;
+    }
+
+    public void setLstProyectosJefeDepto(List<Procesodegrado> lstProyectosJefeDepto) {
+        this.lstProyectosJefeDepto = lstProyectosJefeDepto;
+    }
+
+    public List<Procesodegrado> getLstProyectosDepto() {
+        return lstProyectosDepto;
+    }
+
+    public void setLstProyectosDepto(List<Procesodegrado> lstProyectosDepto) {
+        this.lstProyectosDepto = lstProyectosDepto;
+    }
+
+    public List<Procesodegrado> getLstProyectosCoordinador() {
+        List<Procesodegrado> lstProy = ejbProcesogrado.findAll();
+        lstProyectosCoordinador = new ArrayList<>();
+        for (Procesodegrado proy : lstProy) {
+            int i = proy.getProductodetrabajoList().size();
+            if (i != 0) {
+                if (proy.getProductodetrabajoList().get(i - 1).getPronombre().contains("Anteproyecto terminado gestionado por el docente")) {
+                    lstProyectosCoordinador.add(proy);
+                }
+            }
+        }
+        return lstProyectosCoordinador;
+    }
+
+    public void setLstProyectosCoordinador(List<Procesodegrado> lstProyectosCoordinador) {
+        this.lstProyectosCoordinador = lstProyectosCoordinador;
+    }
+    public boolean isEvaluado() {
+        return evaluado;
+    }
+
+    public void setEvaluado(boolean evaluado) {
+        this.evaluado = evaluado;
+    }
+
+    public List<Usuario> getLstEstudiantePro() {
+        if (objProcesogrado != null) {
+            List<Usuario> lstUsu = objProcesogrado.getUsuarioList();
+            lstEstudiantePro = new ArrayList<>();
+            for (Usuario usu : lstUsu) {
+                if (usu.getRolList().get(0).getRolnombre().equals("Estudiante")) {
+                    lstEstudiantePro.add(usu);
+                }
+            }
+        }
+        return lstEstudiantePro;
+    }
+
+    public void setLstEstudiantePro(List<Usuario> lstEstudiantePro) {
+        this.lstEstudiantePro = lstEstudiantePro;
+    }
+
+    public boolean isIdeaAprobada() {
+        if (objProcesogrado != null && !objProcesogrado.getProductodetrabajoList().isEmpty()) {
+            int i = objProcesogrado.getProductodetrabajoList().size();
+            if (i != 0) {
+                if (objProcesogrado.getProductodetrabajoList().get(i - 1).getPronombre().contains("resultado de la revision de la idea del proyecto"))
+                        //&& objProcesogrado.getEstado().equalsIgnoreCase("aprobado")) 
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public void setIdeaAprobada(boolean ideaAprobada) {
+        this.ideaAprobada = ideaAprobada;
+    }
+
+    public void pru() {
+        if (objProcesogrado != null && !objProcesogrado.getProductodetrabajoList().isEmpty()) {
+            objProductotrabajo = objProcesogrado.getProductodetrabajoList().get(0);
+            lstParametro = objProductotrabajo.getParametroList();
+            for (Parametro p : lstParametro) {
+                if (p.getParnombre().contains("Tiempo estimado")) {
+                    obtenerFormatoA.setTiempoEstimado(p.getPartipo());
+                }
+            }
+
+        }
+    }
+
+    public FormatoA getObtenerFormatoA() {
+        if (objProcesogrado != null && !objProcesogrado.getProductodetrabajoList().isEmpty()) {
+            objProductotrabajo = objProcesogrado.getProductodetrabajoList().get(0);
+            lstParametro = objProductotrabajo.getParametroList();
+            for (Parametro p : lstParametro) {
+                if (p.getParnombre().contains("Tiempo estimado")) {
+                    obtenerFormatoA.setTiempoEstimado(p.getPartipo());
+                }
+            }
+
+        }
+        return obtenerFormatoA;
+    }
+
+    public void setObtenerFormatoA(FormatoA obtenerFormatoA) {
+        this.obtenerFormatoA = obtenerFormatoA;
+    }
     
+    public List<String> autocompleteCedula(String query) {
+        lstUsuario = ejbUsuario.findAll();
+        List<String> lstCedulas = new ArrayList<>();
+        for (Usuario estudiante : lstUsuario) {
+            if (!estudiante.getRolList().isEmpty()) {
+                if (estudiante.getRolList().get(0).getRolnombre().equals("Estudiante")) {
+                    String cedula = estudiante.getUsucedula().toString();
+                    if (cedula.contains(query)) {
+                        lstCedulas.add(cedula);
+                    }
+                }
+            }
+        }
+        return lstCedulas;
+    }
+    public String getCarta() 
+    {
+        return carta;
+    }
+    public void setCarta(String carta) 
+    {
+        this.carta = carta;
+    }
+
+    public String getAnteproyecto() {
+        return anteproyecto;
+    }
+    public void setAnteproyecto(String anteproyecto) 
+    {
+        this.anteproyecto = anteproyecto;
+    }
+    public String getDirector() 
+    {
+        return director;
+    }
+    public void setDirector(String director) 
+    {
+        this.director = director;
+    }
 }

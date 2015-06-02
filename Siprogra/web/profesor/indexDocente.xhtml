@@ -23,46 +23,66 @@
             </ui:define>
 
             <ui:define name="contenido">
-
                 <p:growl id="growl" showDetail="true" sticky="false" life="10000"/> 
 
-                <h:form id="ProyectoListForm">
-                    <p:tabView orientation="left" id="tabView">
+                <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
 
-                        <p:tab title="Proyectos" >
-                            <p:outputPanel id="tabProyectos">
-                                <p:panel header="Lista de Proyectos">
-                                    <p:dataTable id="datalist" value="#{proyectoController.lstProcesogrado}" var="item"
+                <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                    <p:graphicImage name="/img/ajax-loader.gif" />
+                </p:dialog>
+
+                <p:tabView orientation="left" id="tabView1">
+
+                    <p:tab title="Docente director" >
+
+                        <h:form id="directorForm">
+                            <p:outputPanel id="tabDirector">
+                                <p:panel header="Listado de mis proyectos">
+                                    <p:dataTable id="datalistDirector" value="#{proyectoController.lstProyectosDocente}" var="item"
                                                  selectionMode="single" selection="#{proyectoController.objProcesogrado}"
                                                  paginator="true"
                                                  rowKey="#{item.procid}"
                                                  rows="10"
-                                                 rowsPerPageTemplate="10,20,30,40,50"                                                 
+                                                 rowsPerPageTemplate="10,20,30,40,50"                                               
                                                  >
 
-                                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton "/>
-                                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton "/>
+                                        <p:ajax event="rowSelect"   update="createProButton viewButton editButton deleteButton 
+                                                addEstuButton addAntePButton @this"/>
+                                        <p:ajax event="rowUnselect" update="createProButton viewButton editButton deleteButton 
+                                                addEstuButton addAntePButton @this"/>
 
                                         <p:column>
                                             <f:facet name="header">
                                                 <h:outputText value="Titulo"/>
                                             </f:facet>
                                             <h:outputText value="#{item.proctitulo}"/>
-                                        </p:column>
+                                        </p:column>                                        
 
                                         <f:facet name="footer">
-                                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="Agregar Nuevo" actionListener="#{proyectoController.prepareCrear()}"
+                                            <p:commandButton id="createProButton" icon="ui-icon-plus"   value="Agregar Nuevo" actionListener="#{proyectoController.prepareCrear()}"
                                                              update=":ProyectoCreateForm" oncomplete="PF('ProyectoCreateDialog').show()"/>
+
+                                            <p:commandButton id="addEstuButton"   icon="ui-icon-plus" value="Asociar Estudiante" update=":addEstuForm:datalistEstudiante" 
+                                                             oncomplete="PF('addEstuDialog').show()" disabled="#{empty proyectoController.objProcesogrado}"
+                                                             actionListener="#{proyectoController.prepareAddEstudiante()}" rendered="#{proyectoController.ideaAprobada}"/>
+
+                                            <p:commandButton id="addAntePButton"   icon="ui-icon-plus" value="Subir Anteproyecto" update=":addAntPForm" 
+                                                             oncomplete="PF('addAntPDialog').show()" disabled="#{empty proyectoController.objProcesogrado}"
+                                                             actionListener="#{proyectoController.prepareAgregarAnte()}" rendered="#{proyectoController.ideaAprobada}"/>
+
                                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" update=":ProyectoViewForm"
-                                                             oncomplete="PF('ProyectoViewDialog').show()" disabled="#{empty proyectoController.objProcesogrado}"/>
+                                                             actionListener="#{proyectoController.pru()}" disabled="#{empty proyectoController.objProcesogrado}"/>
+
                                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Editar" update=":ProyectoEditForm"
                                                              oncomplete="PF('ProyectoEditDialog').show()" disabled="#{empty proyectoController.objProcesogrado}"/>
+
                                             <p:commandButton type="button" onclick="PF('cd').show()" value="Borrar" icon="ui-icon-trash" id="deleteButton"
                                                              disabled="#{empty proyectoController.objProcesogrado}"/>
+
                                             <p:confirmDialog message="Deseas eliminar el elemento seleccionado?" header="Confirmacion Borrado" severity="alert"
                                                              widgetVar="cd">
                                                 <p:commandButton icon="ui-icon-trash"  value="Aceptar" actionListener="#{proyectoController.borrar()}" 
-                                                                 update=":growl,datalist" oncomplete="PF('cd').hide()"/>
+                                                                 update=":growl, datalistDirector, @this" oncomplete="PF('cd').hide()"/>
 
                                                 <p:commandButton value="Cancelar" onclick="PF('cd').hide();" type="button" />
                                             </p:confirmDialog>
@@ -72,39 +92,186 @@
                                 </p:panel>
                             </p:outputPanel>
 
+                        </h:form>
+                    </p:tab>
 
-                        </p:tab>
 
-                        <p:tab title="Pendientes">
-                            <p:panel header="Lista de tareas pendientes">
-                                <center>
-                                    <h:panelGrid columns="3" border="0" style="margin-top:20px" cellpadding="10" >
-                                        <p:outputLabel value="1. " for="a" />
-                                        <p:outputLabel value="Evaluar anteproyecto #1 " for="a" />
-                                        <p:commandLink id="a" value="Realizar" style="color: #269abc;" oncomplete="PF('evaluarAnteproyectoDialog').show()"  />
-                                        <p:outputLabel value="2. " for="b" />
-                                        <p:outputLabel value="Aprobar anteproyecto #2 " for="b" />
-                                        <p:commandLink id="b" value="Realizar" style="color: #269abc;" />
-                                        <p:outputLabel value="3. " for="c" />
-                                        <p:outputLabel value="Remitir trabajo de grado #4 a consejo de facultad" for="c" />
-                                        <p:commandLink id="c" value="Realizar" style="color: #269abc;" />
-                                        <p:outputLabel value="4. " for="d" />
-                                        <p:outputLabel value="Remitir trabajo de grado #3 a departamento" for="d" />
-                                        <p:commandLink id="d" value="Realizar" style="color: #269abc;" />
-                                        <p:outputLabel value="5. " for="a" />
-                                        <p:outputLabel value="Diligenciar evaluacin cuatrimestral trabajo de grado #5" for="a" />
-                                        <p:commandLink id="e" value="Realizar" style="color: #269abc;" />
-                                        <p:outputLabel value="6. " for="a" />
-                                        <p:outputLabel value="Evaluar sustentacion de grado trabajo de grado #6" for="a" />
-                                        <p:commandLink id="f" value="Realizar" style="color: #269abc;" />
+                    <p:tab title="Evaluador" rendered="#{usuarioController.esEvaluador}">
 
-                                    </h:panelGrid>
-                                </center>
-                            </p:panel>
+                        <h:form id="evaluadorForm">
+                            <p:outputPanel id="tabEvaluador">
+                                <p:panel header="Listado de proyectos">
+                                    <p:dataTable id="datalistDirector" value="#{proyectoController.lstProyectosEvaluador}" var="item"
+                                                 selectionMode="single" selection="#{proyectoController.objProcesogrado}"
+                                                 paginator="true"
+                                                 rowKey="#{item.procid}"
+                                                 rows="10"
+                                                 rowsPerPageTemplate="10,20,30,40,50"                                               
+                                                 >
 
-                        </p:tab>
-                    </p:tabView>
-                </h:form>
+                                        <p:ajax event="rowSelect"   update="createFormatoBButton viewButton"/>
+                                        <p:ajax event="rowUnselect" update="createFormatoBButton viewButton"/>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Titulo"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.proctitulo}"/>
+                                        </p:column>                                        
+
+                                        <f:facet name="footer">
+                                            <p:commandButton id="createFormatoBButton" icon="ui-icon-plus"   value="Realizar revision" actionListener="#{proyectoController.prepareAddFormatoB()}"
+                                                             update=":addFormatoBForm" oncomplete="PF('addFormatoBDialog').show()" disabled="#{empty proyectoController.objProcesogrado}"/>
+
+                                            
+                                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" update=":ProyectoViewForm"
+                                                             oncomplete="PF('ProyectoViewDialog').show()" disabled="#{empty proyectoController.objProcesogrado}"/>
+
+                                            
+                                        </f:facet>
+                                    </p:dataTable>
+                                </p:panel>
+                            </p:outputPanel>
+
+                        </h:form>
+
+                    </p:tab>
+
+                    <p:tab title="Jurado" rendered="#{usuarioController.esJurado}">
+
+
+                    </p:tab>
+
+                    <p:tab title="Jefe Departamento" rendered="#{usuarioController.esJefe}">
+
+                        <h:form id="jefeDeptoForm">
+                            <p:outputPanel id="tabJefeDepto">
+                                <p:panel header="Lista de Ideas">
+                                    <p:dataTable id="datalistJefeDepto" value="#{proyectoController.lstProyectosJefeDepto}" var="item"
+                                                 selectionMode="single" selection="#{proyectoController.objProcesogrado}"
+                                                 paginator="true"
+                                                 rowKey="#{item.procid}"
+                                                 rows="10"
+                                                 rowsPerPageTemplate="10,20,30,40,50"
+                                                 >
+
+                                        <p:ajax event="rowSelect"   update="createRevisionButton viewButton"/>
+                                        <p:ajax event="rowUnselect" update="createRevisionButton viewButton"/>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Titulo"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.proctitulo}"/>
+                                        </p:column>
+
+                                        <f:facet name="footer">
+                                            <p:commandButton id="createRevisionButton" icon="ui-icon-plus"   value="Realizar Revision" actionListener="#{proyectoController.prepareActaRevIdea()}"
+                                                             update=":RevisionIdeaForm" oncomplete="PF('RevisionIdeaDialog').show()" disabled="#{empty proyectoController.objProcesogrado}"/>
+                                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" update=":ProyectoViewForm"
+                                                             oncomplete="PF('ProyectoViewDialog').show()" disabled="#{empty proyectoController.objProcesogrado}"/>
+
+                                        </f:facet>
+                                    </p:dataTable>
+                                </p:panel>
+                            </p:outputPanel>
+                        </h:form>
+
+                    </p:tab>
+
+                    <p:tab title="Coordinador" rendered="#{usuarioController.esCoordinador}">
+
+                        <p:tabView id="tabView2" rendered="#{usuarioController.esCoordinador}">
+                            <p:tab title="Docentes">
+                                <h:form id="coorDocentesForm">
+                                    <p:outputPanel id="tabCoordinadorDocente">
+                                        <p:panel header="Lista de Proyectos">
+                                            <p:dataTable id="datalistCoordinadorD" value="#{usuarioController.lstDocente}" var="item"
+                                                         selectionMode="single" selection="#{proyectoController.objUsuario}"
+                                                         paginator="true"
+                                                         rowKey="#{item.usuid}"
+                                                         rows="10"
+                                                         rowsPerPageTemplate="10,20,30,40,50"
+                                                         >
+
+                                                <p:ajax event="rowSelect"   update="addEvaluadorButton"/>
+                                                <p:ajax event="rowUnselect" update="addEvaluadorButton"/>
+
+                                                <p:column width="80px">
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Cedula"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.usucedula}"/>
+                                                </p:column>
+
+                                                <p:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Nombre"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.usunombres} #{item.usuapellidos}"/>
+                                                </p:column>
+
+                                                <p:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Area interes"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.usuarea}"/>
+                                                </p:column>
+
+                                                <f:facet name="footer">
+                                                    <p:commandButton id="addEvaluadorButton" icon="ui-icon-plus"   value="Asignar como evaluador" actionListener="#{proyectoController.prepareAsignarEvaluador()}"
+                                                                     update=":listProyectosForm" oncomplete="PF('listProyectosDialog').show()" disabled="#{empty proyectoController.objUsuario}"/>
+
+                                                </f:facet>
+                                            </p:dataTable>
+                                        </p:panel>
+                                    </p:outputPanel>
+                                </h:form>
+                            </p:tab>
+
+                            <p:tab title="Proyectos">
+                                <h:form>
+                                    <p:outputPanel id="tabCoordinadorProyectos">
+                                        <p:panel header="Lista de Proyectos">
+                                            <p:dataTable id="datalistCoordinadorProyectos" value="#{proyectoController.lstProyectosCoordinador}" var="item"
+                                                         selectionMode="single" selection="#{proyectoController.objProcesogrado}"
+                                                         paginator="true"
+                                                         rowKey="#{item.procid}"
+                                                         rows="10"
+                                                         rowsPerPageTemplate="10,20,30,40,50"
+                                                         >
+
+                                                <p:ajax event="rowSelect"   update="verAnteproyectoButton remitirSecretariaButton viewButton"/>
+                                                <p:ajax event="rowUnselect" update="verAnteproyectoButton remitirSecretariaButton viewButton"/>
+
+                                                <p:column>
+                                                    <f:facet name="header">
+                                                        <h:outputText value="Titulo"/>
+                                                    </f:facet>
+                                                    <h:outputText value="#{item.proctitulo}"/>
+                                                </p:column>
+
+                                                <f:facet name="footer">
+                                                    <p:commandButton id="verAnteproyectoButton" icon="ui-icon-plus"   value="Ver anteproyecto" actionListener="#{proyectoController.verAnteproyecto()}"
+                                                                     update=":verAnteproyectoForm" oncomplete="PF('verAnteproyectoDialog').show()" disabled="#{empty proyectoController.objProcesogrado}"/>
+                                                    <p:commandButton id="remitirSecretariaButton" icon="ui-icon-plus"   value="Remitir a secretaria" actionListener="#{proyectoController.prepareRemitirSecretaria()}"
+                                                                     update=":remitirSecretariaForm" oncomplete="PF('remitirSecretariaDialog').show()" disabled="#{empty proyectoController.objProcesogrado}"/>
+                                                    <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" update=":ProyectoViewForm"
+                                                                     oncomplete="PF('ProyectoViewDialog').show()" disabled="#{empty proyectoController.objProcesogrado}"/>
+
+                                                </f:facet>
+                                            </p:dataTable>
+                                        </p:panel>
+                                    </p:outputPanel>
+                                </h:form>
+                            </p:tab>
+                        </p:tabView>
+
+
+
+                    </p:tab>
+
+                </p:tabView>
 
                 <ui:include src="../proyecto/FormatoA.xhtml"/>
                 <ui:include src="../proyecto/Editar.xhtml"/>
@@ -112,6 +279,11 @@
                 <ui:include src="../proyecto/EditarEstudiantes.xhtml"/>
                 <ui:include src="../proyecto/AgregarEstudiante.xhtml"/>
                 <ui:include src="../proyecto/AgregarAnteproyecto.xhtml"/>
+                <ui:include src="../proyecto/RevisionIdea.xhtml"/>
+                <ui:include src="../proyecto/VerAnteproyecto.xhtml"/>
+                <ui:include src="../proyecto/ListarProyectos.xhtml"/>
+                <ui:include src="../proyecto/FormatoB.xhtml"/>
+                <ui:include src="../proyecto/RemitirSecretaria.xhtml"/>
             </ui:define>
 
         </ui:composition>

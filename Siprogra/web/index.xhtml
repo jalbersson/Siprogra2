@@ -22,7 +22,6 @@
                 </h:form>
 
                 <ui:include src="usuario/IniciarSesion.xhtml"/>
-                <ui:include src="usuario/SelRol.xhtml"/>
 
             </ui:define>
 
@@ -32,44 +31,6 @@
                     <p:growl id="msgs" showDetail="true" />
 
                     <p:tabView>
-                        
-                        <p:tab title="Proyectos" >
-                            <p:outputPanel id="tabProyectos">
-                                <p:panel header="Lista de Proyectos">
-                                    <p:dataTable id="datalist" value="#{newJSFManagedBean.items}" var="item"
-                                                 selectionMode="single" selection="#{newJSFManagedBean.selected}"
-                                                 paginator="true"
-                                                 rowKey="#{item.usuid}"
-                                                 rows="10"
-                                                 rowsPerPageTemplate="10,20,30,40,50"                                                 
-                                                 >
-
-                                        <p:ajax event="rowSelect"   update="createButton viewButton editButton "/>
-                                        <p:ajax event="rowUnselect" update="createButton viewButton editButton "/>
-
-                                        <p:column>
-                                            <f:facet name="header">
-                                                <h:outputText value="Titulo"/>
-                                            </f:facet>
-                                            <h:outputText value="#{item.usunombreusuario}"/>
-                                        </p:column>
-
-                                        <f:facet name="footer">
-                                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="Agregar Nuevo" />
-                                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver"
-                                                             oncomplete="PF('ProyectoViewDialog').show()" disabled="#{empty newJSFManagedBean.selected}"/>
-                                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Editar"
-                                                             oncomplete="PF('ProyectoEditDialog').show()" disabled="#{empty newJSFManagedBean.selected}"/>
-
-
-                                        </f:facet>
-                                    </p:dataTable>
-                                </p:panel>
-                            </p:outputPanel>
-
-
-                        </p:tab>
-
 
                         <p:tab title="Inicio">
                             <center>
@@ -89,8 +50,20 @@
                                 </h:panelGrid>
                             </center>
                         </p:tab>
+
                         <p:tab title="Proyectos de Grado">
+                            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"  />
+
+                            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                                <p:graphicImage name="/img/ajax-loader.gif" />
+
+                            </p:dialog>
+                            <h:form>
+                                <p:commandButton value="Send" icon="ui-icon-refresh" />
+                            </h:form>
                             <h:form id="ProcesodegradoListForm">
+                                <p:commandButton value="Send" icon="ui-icon-refresh" />
+
                                 <p:panel header="Listado proyectos de grado">
                                     <p:dataTable id="datalist" value="#{proyectoController.lstProcesogrado}" var="item"
                                                  selectionMode="single" selection="#{proyectoController.objProcesogrado}"
@@ -119,11 +92,23 @@
 
                         </p:tab>
 
+                        <p:tab title="Prueba">
+
+                            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+
+                            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+                                <p:graphicImage name="/img/ajax-loader.gif" />
+                            </p:dialog>
+
+                            <h:form>
+                                <p:commandButton value="Send" icon="ui-icon-refresh" />
+                            </h:form>
+                        </p:tab>
                     </p:tabView>
 
                 </h:form>
             </ui:define>
-           
+
         </ui:composition>
 
     </body>

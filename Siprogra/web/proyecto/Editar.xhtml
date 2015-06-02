@@ -18,8 +18,8 @@
                             <p:inputText id="titulo" value="#{proyectoController.objProcesogrado.proctitulo}" required="true" requiredMessage="Campo obligatorio"/>
                             
                             <f:facet name="footer">
-                                <p:commandButton actionListener="#{proyectoController.editar()}" value="Guardar" update="display,:growl" 
-                                                 />
+                                <p:commandButton actionListener="#{proyectoController.editar()}" value="Guardar" update="display, :tabView1:jefeDeptoForm:tabJefeDepto, 
+                                                 :tabView1:directorForm:tabDirector, :growl"  />
                             </f:facet>
                         </p:panelGrid>
                     </h:panelGroup>

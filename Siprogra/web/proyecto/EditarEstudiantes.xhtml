@@ -9,10 +9,10 @@
     <ui:composition>
 
         <p:dialog id="addEstuDlg" widgetVar="addEstuDialog" modal="true" resizable="false" appendTo="@(contenido)" 
-                  hideEffect="blind" showEffect="click" width="800">
+                  hideEffect="blind" showEffect="click" width="800" header="#{proyectoController.objProcesogrado.proctitulo}">
             <h:form id="addEstuForm">
-                <p:panel header="Estudiantes asociados al proyecto" footer="">
-                    <p:dataTable id="datalistEstudiante" value="#{proyectoController.objProcesogrado.usuarioList}" var="item"
+                <p:panel header="Estudiante(s) asociados al proyecto" footer="">
+                    <p:dataTable id="datalistEstudiante" value="#{proyectoController.lstEstudiantePro}" var="item"
                                  selectionMode="single" selection="#{proyectoController.objUsuario}"
                                  paginator="true"
                                  rowKey="#{item.usuid}"
@@ -23,7 +23,7 @@
                         <p:ajax event="rowSelect"   update="createEstButton deleteEstButton"/>
                         <p:ajax event="rowUnselect"   update="createEstButton deleteEstButton"/>
 
-                        <p:column>
+                        <p:column width="80">
                             <f:facet name="header">
                                 <h:outputText value="Cedula"/>
                             </f:facet>
@@ -43,7 +43,7 @@
                         </p:column>
                         
                         <f:facet name="footer">
-                            <p:commandButton id="createEstButton" icon="ui-icon-plus"   value="Agregar" actionListener="#{proyectoController.prepareAgregarEstudiante()}" 
+                            <p:commandButton id="createEstButton" icon="ui-icon-plus"   value="Agregar" actionListener="#{proyectoController.prepareAddEstudiante()}" 
                                              update=":EstudianteCreateForm" oncomplete="PF('EstudianteCreateDialog').show()"/>
                             <p:commandButton id="deleteEstButton" icon="ui-icon-trash"  value="Borrar" actionListener="#{proyectoController.borrarEstudiante()}" 
                                              update=":growl,datalistEstudiante" disabled="#{empty proyectoController.objUsuario}"/>

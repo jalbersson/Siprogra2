@@ -18,7 +18,7 @@
                             <p:autoComplete id="estudiantePK"   value="#{proyectoController.cedulaEstudiante}"
                                             completeMethod="#{proyectoController.autocompleteCedula}" />
                             <f:facet name="footer">
-                                <p:commandButton actionListener="#{proyectoController.agregarEstudiante()}" value="Agregar" update="display,:addEstuForm:datalistEstudiante,:growl"/>
+                                <p:commandButton actionListener="#{proyectoController.agregarEstudiante()}" value="Agregar" update="display,:addEstuForm:datalistEstudiante,:growl, :addEstuForm"/>
                             </f:facet>
                         </p:panelGrid>
                     </h:panelGroup>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="addFormatoBDlg" widgetVar="addFormatoBDialog" modal="true" resizable="false" appendTo="@(body)" 
+                  showEffect="click" hideEffect="blind">
+            <h:form id="addFormatoBForm">
+                <p:panel header="Formato B" footer="">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Titulo:"/>
+                            <p:outputLabel value="#{proyectoController.objProcesogrado.proctitulo}"/>
+
+                            <h:outputLabel for="numEstudiantes" value="Estudiantes:" />  
+                            <p:dataList value="#{proyectoController.lstEstudiantePro}" var="usr" type="ordered" 
+                                        emptyMessage="No hay estudiantes agregados"/>
+
+                            <h:outputLabel for="director" value="Director:" />        
+                            <p:outputLabel value="#{proyectoController.director}"/>
+
+                            <h:outputLabel for="aporte" value="A) PRESENTACION Y APORTES (Están indicados con claridad?)" />  
+                            <p:inputText id="aporte" value="#{proyectoController.formatoA.contribucion}" required="false" 
+                                         requiredMessage="Campo requerido"/>
+
+                            <h:outputLabel for="objetivos" value="B) OBJETIVOS (Establecidos claramente?)" />  
+                            <p:inputText id="objetivos" value="#{proyectoController.formatoA.tiempoEstimado}" required="false" 
+                                         label="Usuario" requiredMessage="Campo obligatorio" >  
+                            </p:inputText>
+
+                            <h:outputLabel for="metodologia" value="C) METODOLOGÍA (Se indica explícitamente?)" />  
+                            <p:inputText id="metodologia" value="#{proyectoController.formatoA.condicionesEntrega}" required="false" 
+                                         label="Usuario" requiredMessage="Campo obligatorio"  >  
+                            </p:inputText>
+
+                            <h:outputLabel for="entrega" value="D) CONDICIONES DE ENTREGA (Se establecen claramente?)" />  
+                            <p:inputText id="entrega" value="#{proyectoController.formatoA.recursos}" required="false" 
+                                         label="Usuario" requiredMessage="Campo obligatorio"  >  
+                            </p:inputText>
+
+                            <h:outputLabel for="monografia" value="E) MONOGRAFIA (tiene una estructura adecuada?)" />  
+                            <p:inputText id="monografia" value="#{proyectoController.formatoA.fuentesFinanciacion}" required="false" 
+                                         label="Usuario" requiredMessage="Campo obligatorio"  >  
+                            </p:inputText>
+
+                            <h:outputLabel for="cronograma" value="F) CRONOGRAMA (se indica en forma clara y completa?)" />  
+                            <p:inputText id="cronograma" value="#{proyectoController.formatoA.observaciones}" required="false" 
+                                         label="Usuario" requiredMessage="Campo obligatorio"  >  
+                            </p:inputText>
+                            
+                            <h:outputLabel for="patrocinio" value="G) PATROCINIO (existe?)" />  
+                            <p:inputText id="patrocinio" value="#{proyectoController.formatoA.observaciones}" required="false" 
+                                         label="Usuario" requiredMessage="Campo obligatorio"  >  
+                            </p:inputText>
+                            
+                            <h:outputLabel for="concepto" value="H) CONCEPTO GENERAL" />  
+                            <p:inputText id="concepto" value="#{proyectoController.formatoA.observaciones}" required="false" 
+                                         label="Usuario" requiredMessage="Campo obligatorio"  >  
+                            </p:inputText>
+                            
+                            <h:outputLabel for="observaciones" value="OBSERVACIONES:" />  
+                            <p:inputText id="observaciones" value="#{proyectoController.formatoA.observaciones}" required="false" 
+                                         label="Usuario" requiredMessage="Campo obligatorio"  >  
+                            </p:inputText>
+
+                            <h:outputLabel for="director" value="Evaluador" />        
+                            <p:outputLabel value="#{usuarioController.login}"/>
+                            
+                            <f:facet name="footer">
+                                <p:commandButton action="#{proyectoController.crearFormatoB()}" value="Guardar" 
+                                                 update="display,:growl, :tabView1:evaluadorForm:tabEvaluador" 
+                                                 />
+                            </f:facet>
+                        </p:panelGrid>
+                    </h:panelGroup>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

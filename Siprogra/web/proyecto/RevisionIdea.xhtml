@@ -18,9 +18,9 @@
                             <p:inputText id="acta" value="#{proyectoController.actaRevisionIdea.numActa}" required="true" 
                                          requiredMessage="Campo obligatorio"/>
 
-                            <h:outputLabel for="observaciones" value="Objetivos:" />  
+                            <h:outputLabel for="observaciones" value="Observaciones:" />  
                             <p:inputText id="observaciones" value="#{proyectoController.actaRevisionIdea.observaciones}" required="false" 
-                                         requiredMessage="Campo obligatorio"  >  
+                                         requiredMessage="Campo obligatorio"  > 
                             </p:inputText>
 
                             <h:outputLabel for="resultado" value="Aprobacion" />  
@@ -31,8 +31,8 @@
                             </p:selectOneMenu>
 
                             <f:facet name="footer">
-                                <p:commandButton action="#{proyectoController.crearActaRevision()}" value="Guardar" update="display,:ProyectoListForm,:growl" 
-                                                 />
+                                <p:commandButton action="#{proyectoController.crearActaRevision()}" value="Guardar" update="display,:tabView1:jefeDeptoForm:tabJefeDepto,:growl,
+                                                 :tabView1:directorForm:tabDirector" />
                             </f:facet>
                         </p:panelGrid>
                     </h:panelGroup>

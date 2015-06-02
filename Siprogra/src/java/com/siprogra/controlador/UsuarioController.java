@@ -11,6 +11,7 @@ import java.io.IOException;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -28,10 +29,8 @@ public class UsuarioController implements Serializable {
     @EJB
     private UsuarioFacade ejbUsuario;
     private Usuario objUsuario;
-    private List<Usuario> items;
-    private Usuario selected;
-
-    private Rol objRol;
+    private List<Usuario> lstUsuario;
+    private List<Usuario> lstDocente;
 
     //variabes entrada texto
     private String login;
@@ -41,6 +40,13 @@ public class UsuarioController implements Serializable {
     private boolean sesionIniciada;
     private String rol;
 
+    private boolean esDirector;
+    private boolean esEvaluador;
+    private boolean esJurado;
+    private boolean esJefe;
+    private boolean esDepto;
+    private boolean esCoordinador;
+
     /**
      * Creates a new instance of usuarioController
      */
@@ -48,24 +54,8 @@ public class UsuarioController implements Serializable {
         this.sesionIniciada = false;
     }
 
-    public List<Usuario> getItems() {
-        
-        return ejbUsuario.findAll(); 
-    }
+    public void iniciarSesion() throws IOException {
 
-    public void setItems(List<Usuario> items) {
-        this.items = items;
-    }
-
-    public Usuario getSelected() {
-        return selected;
-    }
-
-    public void setSelected(Usuario selected) {
-        this.selected = selected;
-    }
-    
-    public void seleccionarRol() {
         List<Usuario> lstUsuarios = ejbUsuario.findAll();
         FacesContext context = FacesContext.getCurrentInstance();
 
@@ -80,60 +70,29 @@ public class UsuarioController implements Serializable {
             context.getExternalContext().getSessionMap().put("login", objUsuario.getUsunombreusuario());
             context.getExternalContext().getSessionMap().put("password", objUsuario.getUsucontrasenia());
             context.getExternalContext().getSessionMap().put("activo", sesionIniciada);
-            RequestContext.getCurrentInstance().execute("PF('IniciarSesionDialog').hide()");
-            RequestContext.getCurrentInstance().execute("PF('SelRolDialog').show()");
+            this.rol = objUsuario.getRolList().get(0).getRolnombre();
+            context.getExternalContext().getSessionMap().put("rol", rol);
         } else {
             this.sesionIniciada = false;
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Datos Incorrectos", null));
             this.objUsuario = new Usuario();
         }
 
-    }
-
-    public void iniciarSesion() throws IOException {
-
-        FacesContext context = FacesContext.getCurrentInstance();
-        this.rol = objRol.getRolnombre();
-        context.getExternalContext().getSessionMap().put("rol", rol);
-
         if (this.sesionIniciada) {
 
-            if (this.rol.equals("Admin")) {
+            if (rol.equals("Admin")) {
                 context.getExternalContext().redirect("./administrador/GestionWorkflow.xhtml");
             }
 
-            if (this.rol.equals("Estudiante")) {
+            if (rol.equals("Estudiante")) {
                 context.getExternalContext().redirect("./estudiante/GestionProyectoEstudiante.xhtml");
             }
 
-            if (this.rol.equals("Docente")) {
+            if (rol.toLowerCase().contains("docente") || rol.toLowerCase().contains("departamento")
+                    || rol.toLowerCase().contains("coordinador")) {
                 context.getExternalContext().redirect("./profesor/indexDocente.xhtml");
             }
 
-            if (this.rol.equals("Docente jurado")) {
-                context.getExternalContext().redirect("./profesor/indexDocente.xhtml");
-            }
-
-            if (this.rol.equals("Docente director")) {
-                context.getExternalContext().redirect("./profesor/indexDocente.xhtml");
-            }
-
-            if (this.rol.equals("Docente evaluador")) {
-                context.getExternalContext().redirect("./profesor/indexDocente.xhtml");
-            }
-
-            if (this.rol.equals("Jefe de departamento")) {
-                context.getExternalContext().redirect("./profesor/indexJefeDepto.xhtml");
-            }
-            
-             if (this.rol.equals("Departamento")) {
-                context.getExternalContext().redirect("./profesor/indexDepto.xhtml");
-            }
-             
-            if (this.rol.equals("Coordinador de programa")) {
-                context.getExternalContext().redirect("./profesor/indexDocente.xhtml");
-            }
-            
             if (this.rol.equals("Secretaria general")) {
                 context.getExternalContext().redirect("./secretaria/GestionProyectoSecretaria.xhtml");
             }
@@ -146,6 +105,92 @@ public class UsuarioController implements Serializable {
         this.login = new String();
         this.password = new String();
         FacesContext.getCurrentInstance().getExternalContext().redirect("../index.xhtml");
+    }
+
+    public List<Usuario> getLstDocente() {
+        lstUsuario = ejbUsuario.findAll();
+        lstDocente = new ArrayList<>();
+        for(Usuario usu : lstUsuario) {
+            if(!usu.getRolList().isEmpty()) {
+                if(usu.getRolList().get(0).getRolnombre().toLowerCase().contains("docente") ||
+                   usu.getRolList().get(0).getRolnombre().toLowerCase().contains("departamento") ) {
+                lstDocente.add(usu);
+            }
+            }            
+        }
+        return lstDocente;
+    }
+
+    public void setLstDocente(List<Usuario> lstDocente) {
+        this.lstDocente = lstDocente;
+    }
+
+    public boolean isEsDirector() {
+        return perteneceRol("Docente director");
+    }
+
+    public void setEsDirector(boolean esDirector) {
+        this.esDirector = esDirector;
+    }
+
+    public boolean isEsEvaluador() {
+        return perteneceRol("Docente evaluador");
+    }
+
+    public void setEsEvaluador(boolean esEvaluador) {
+        this.esEvaluador = esEvaluador;
+    }
+
+    public boolean isEsJurado() {
+        return perteneceRol("Docente jurado");
+    }
+
+    public void setEsJurado(boolean esJurado) {
+        this.esJurado = esJurado;
+    }
+
+    public boolean isEsJefe() {
+        return perteneceRol("Jefe de departamento");
+    }
+
+    public void setEsJefe(boolean esJefe) {
+        this.esJefe = esJefe;
+    }
+
+    public boolean isEsDepto() {
+        return perteneceRol("Departamento");
+    }
+
+    public void setEsDepto(boolean esDepto) {
+        this.esDepto = esDepto;
+    }
+
+    public boolean isEsCoordinador() {
+        return perteneceRol("Coordinador de programa");
+    }
+
+    public void setEsCoordinador(boolean esCoordinador) {
+        this.esCoordinador = esCoordinador;
+    }
+
+    public boolean perteneceRol(String ro) {
+        obtenerUsuario();
+        for (Rol r : objUsuario.getRolList()) {
+            if (r.getRolnombre().equalsIgnoreCase(ro)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void obtenerUsuario() {
+        String login = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("login");
+        lstUsuario = ejbUsuario.findAll();
+        for (Usuario usr : lstUsuario) {
+            if (usr.getUsunombreusuario().equals(login)) {
+                objUsuario = usr;
+            }
+        }
     }
 
     public String getLogin() {
@@ -170,14 +215,6 @@ public class UsuarioController implements Serializable {
 
     public void setObjUsuario(Usuario objUsuario) {
         this.objUsuario = objUsuario;
-    }
-
-    public Rol getObjRol() {
-        return objRol;
-    }
-
-    public void setObjRol(Rol objRol) {
-        this.objRol = objRol;
     }
 
 }

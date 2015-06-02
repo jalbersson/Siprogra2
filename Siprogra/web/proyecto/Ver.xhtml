@@ -14,7 +14,11 @@
                 <p:panel header="Detalle Proyecto" footer="">
                     <h:panelGroup id="display">
                         <p:panelGrid columns="1" >
-                            
+
+                            <p:fieldset legend="Nombre Proyecto" style="margin-bottom:20px">
+                                <h:outputText value="#{proyectoController.objProcesogrado.proctitulo}" style="font-weight: bold;"/>                                    
+                            </p:fieldset>
+
                             <h:outputText value="#{proyectoController.objProcesogrado.proctitulo}" style="font-weight: bold;"/>
                             <p:dataList value="#{proyectoController.objProcesogrado.usuarioList}" var="usr" type="ordered" 
                                         emptyMessage="No hay estudiantes agregados">
@@ -24,14 +28,7 @@
                                 #{usr.usunombreusuario} #{usr.usuapellidos}, #{usr.usucorreo}
                             </p:dataList>
 
-                            <f:facet name="footer">
-                                <p:commandButton id="addEstuButton"   icon="ui-icon-plus" value="Asociar Estudiantes" update=":addEstuForm" 
-                                                 oncomplete="PF('addEstuDialog').show()" disabled="#{empty proyectoController.objProcesogrado}"
-                                                 rendered="#{proyectoController.vista}"/>
-                                <p:commandButton id="addAntePButton"   icon="ui-icon-plus" value="Subir Anteproyecto" update=":addAntPForm" 
-                                                 oncomplete="PF('addAntPDialog').show()" disabled="#{empty proyectoController.objProcesogrado}"
-                                                 actionListener="#{proyectoController.prepareAgregarAnte()}" rendered="#{proyectoController.vista}"/>
-                            </f:facet>
+
                         </p:panelGrid>
                     </h:panelGroup>
                 </p:panel>

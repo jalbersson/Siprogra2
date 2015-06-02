@@ -22,8 +22,8 @@
                                      requiredMessage="Debe ingresar Contraseña" type="password"/>  
 
                         <f:facet name="footer">
-                            <p:commandButton value="Ingresar" update=":FormSelRol, panel, :sesionForm, @this" id="aceptar" 
-                                             icon="ui-icon-check" action="#{usuarioController.seleccionarRol()}" 
+                            <p:commandButton value="Ingresar" update="panel, :sesionForm, @this" id="aceptar" 
+                                             icon="ui-icon-check" action="#{usuarioController.iniciarSesion()}" 
                                              style="margin-left:230px "/> 
                         </f:facet>
                     </p:panelGrid>
