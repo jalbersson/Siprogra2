@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../plantillas/frontEndAdministrador.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="titulo">
+        Gestión del proyecto
+    </ui:define>
+
+    <ui:define name="CuadroDeBotonesSesion">
+        CuadroDeBotonesSesion
+    </ui:define>
+
+    <ui:define name="title">
+        
+    </ui:define>
+
+    <ui:define name="body">
+        <p:tabView orientation="left">
+            <p:tab title="Estado del Proyecto">
+                <h1>NOMBRE DEL PROYECTO</h1>
+                A continuación puede obvservar el estado actual de su proceso de trabajo de grado<br></br><br/>
+                <p:panelGrid columns="1" id="ContenedorProceso">
+                    <h2>Título: Trabajo de grado #3</h2>
+                    <p:graphicImage style="width: 650px; height: 200px;" library="img" name="estados.JPG"/>
+                </p:panelGrid>
+            </p:tab>
+            <p:tab title="Gestión del anteproyecto">
+                <div id="Contenidotab">
+                    <h2>TÍTULO DEL PROYECTO</h2>
+                    Anteproyecto<br></br><br/>
+                    <div class="BotonesInternos">
+                        <h:form>
+                            <p:fileUpload value="#{archivosController.file}" mode="simple"/>
+                            <p:commandButton value="Subir" ajax="false" actionListener="#{archivosController.upload}" disabled="#{archivosController.botonSubir}" />
+                        </h:form>
+                        <p:commandButton id="btnVisualizarAnteproyecto" value="Visualizar">
+                        </p:commandButton>
+                    </div>
+                    <br></br>
+                    Revisiones del anteproyecto<br></br>
+                    <div class="BotonesInternos">
+                    <p:button value="Ver">
+                    </p:button><br></br>
+                    </div>
+                    ETAPA EN LA QUE SE ENCUENTRA: Espera de aprobación del anteproyecto.
+                </div>
+                <p:overlayPanel my="center" id="PanelAnteproyecto" for="btnVisualizarAnteproyecto" hideEffect="fade" dynamic="true" style="width: 600px">
+                    <h1 align="center">Título del Anteproyecto</h1>
+                    Información básica:<br></br>
+                    _____________________________________________________________________
+                    _____________________________________________________________________
+                    _____________________________________________________________________<br></br><br></br>
+                    Objetivos:<br></br>
+                    _____________________________________________________________________
+                    _____________________________________________________________________
+                    _____________________________________________________________________<br></br><br></br>
+                    Actores:<br></br>
+                    _____________________________________________________________________
+                    _____________________________________________________________________
+                    _____________________________________________________________________<br></br><br></br>
+                    Director:<br></br>
+                    _____________________________________________________________________
+                    _____________________________________________________________________
+                    _____________________________________________________________________<br></br><br></br>
+                </p:overlayPanel>
+            </p:tab>
+            <p:tab title="Ejecución del proyecto" >
+                <div id="Contenidotab">
+                    <h2>TÍTULO DEL PROYECTO</h2>
+                    Documento final del trabajo de grado<br></br>
+                    <div class="BotonesInternos">
+                        <h:form>
+                            <p:fileUpload value="#{archivosController.file}" mode="simple"/>
+                            <p:commandButton value="Subir" ajax="false" actionListener="#{archivosController.upload}" disabled="#{archivosController.botonSubir}" />
+                        </h:form>
+                        <p:button  value="Visualizar">
+                        </p:button>
+                    </div>
+                    <br></br>
+                    Artefactos varios...
+                </div>
+            </p:tab>
+            <p:tab title="Formatos">
+                <div id="Contenidotab">
+                    <h1>FORMATOS PARA EL ESTUDIANTE</h1>
+                    Descargar formato de revisión del anteproyecto (Formato PDF).<br></br>
+                    <div class="BotonesInternos">
+                        <h:form>
+                            <p:commandButton value="Descargar" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);" icon="ui-icon-arrowthick-1-s">
+                                <p:fileDownload value="#{fileDownloadView.prepDownload}" />
+                            </p:commandButton>
+                        </h:form>
+                    </div>
+                </div>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+
+</ui:composition>

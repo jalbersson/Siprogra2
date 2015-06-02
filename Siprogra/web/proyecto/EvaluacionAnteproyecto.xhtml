@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="evaluarAnteproyectoDlg" widgetVar="evaluarAnteproyectoDialog" modal="true" resizable="false" appendTo="@(body)"
+                 showEffect="click" hideEffect="blind">
+                <h:form id="form">
+             
+                            <p:panel header="FORMATO B: Evaluacion aneproyecto #1">
+                                <center>
+                                    <h:panelGrid columns="3" border="0" style="margin-top:20px" cellpadding="10" >
+                                        <p:outputLabel value="A) " for="a" />
+                                        <p:outputLabel value="#{profesorController.lstParametro.get(3)}" for="a" />
+                                        <p:inputText id="a" value="" />
+                                        <p:outputLabel value="B)) " for="b" />
+                                        <p:outputLabel value="Obetivos (Establecidos claramente) " for="b" />
+                                        <p:inputText id="b" value="" />
+                                        <p:outputLabel value="C) " for="c" />
+                                        <p:outputLabel value="Metodologia (Se indica explicitamente)" for="c" />
+                                        <p:inputText id="c" value="" />
+                                        <p:outputLabel value="D) " for="d" />
+                                        <p:outputLabel value="Condicones de entrega (Se establecen claramente)" for="d" />
+                                        <p:inputText id="d" value="" />
+                                        <p:outputLabel value="E) " for="a" />
+                                        <p:outputLabel value="Monografia (Se estructura adecudamente)" for="a" />
+                                        <p:inputText id="e" value="" />
+                                        <p:outputLabel value="F) " for="a" />
+                                        <p:outputLabel value="Cronograma (se indica de forma clara y concreta)" for="a" />
+                                        <p:inputText id="f" value="" />
+                                        <p:outputLabel value="G) " for="a" />
+                                        <p:outputLabel value="Patrocinio(Existe?)" for="a" />
+                                        <p:inputText id="g" value="" />
+                                        <p:outputLabel value="H) " for="a" />
+                                        <p:outputLabel value="Concepto general" for="a" />
+                                        <p:selectOneRadio id="h" value="">
+                                            <f:selectItem itemLabel="Aprobado" itemValue="f" />
+                                            <f:selectItem itemLabel="No Aprobado" itemValue="h" />                                            
+                                        </p:selectOneRadio>
+
+                                        <p:outputLabel value=" " for="a" />
+                                        <p:outputLabel value=" " for="a" />
+                                        <p:splitButton  icon="ui-icon-disk">
+                                            <p:separator />
+                                            <p:menuitem icon="ui-icon-arrowrefresh-1-w" />
+                                                                                        
+                                        </p:splitButton>
+
+                                    </h:panelGrid>
+                                </center>
+                            </p:panel>                      
+
+                </h:form>
+           </p:dialog>
+
+    </ui:composition>
+</html>

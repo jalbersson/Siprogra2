@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../plantillaPrincipal.xhtml">
+
+            <ui:define name="tituloPagina">
+                Inicio Admin 
+            </ui:define>
+
+            <ui:define name="botonesSesion">
+                <h:form id="botonesSesionForm">
+                    Bienvenido, #{usuarioController.login}
+                    <p:commandLink id="cerrarSesionButton" action="#{usuarioController.cerrarSesion()}"  value="Cerrar Sesion" style="text-decoration: none;color:#FFFFFF;" />
+                </h:form>
+            </ui:define>
+
+            <ui:define name="contenido">
+                <h:form id="indexForm">
+
+                    <p:growl id="growl" showDetail="true" sticky="false" life="10000"/> 
+
+                    <p:tabView orientation="left">
+
+                        <p:tab title="Gestion de roles">
+                            
+                        </p:tab>
+
+                        <p:tab title="Gestion estados de ejecucion">
+                            
+                        </p:tab>
+
+                        <p:tab title="Gestion de responsabilidades y restricciones">
+
+
+                        </p:tab>
+                        
+                        <p:tab title="Gestion de documentos">
+
+
+                        </p:tab>
+
+                    </p:tabView>
+
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

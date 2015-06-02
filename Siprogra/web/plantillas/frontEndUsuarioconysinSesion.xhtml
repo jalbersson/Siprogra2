@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">      
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />                     
+
+        <!-- Estilos -->     
+        
+        <h:outputStylesheet name="./css/normalize.css"/>
+        <h:outputStylesheet name="./css/estilos.css"/>
+
+        <!-- Scripts 
+        <script src="js/jquery-1.11.0.js"></script>
+        <script src="js/main.js"></script>-->
+
+        <title><ui:insert name="titulo">titulo de la pagina</ui:insert></title>
+    </h:head>
+
+    <h:body>
+       
+        <header id="mainHeader">
+            <div class="contenedor">
+                <div class="top">
+                    <div class="logo">
+                        <a href="#"></a>
+                    </div>
+                    <div class="borde-redondo"></div>
+                    <a href="#" class="titulo">SIPROGRA<!--#{bundle.AppName}--></a>
+                     
+                    <div class="CuadroDeBotonesSesion">                        
+                        <ui:insert name="CuadroDeBotonesSesion">
+                            <h:form id="form">
+                                
+                            <p:commandButton rendered="#{auxiliar.estadoCerrarSesion}"  style="border: none; font-family: inherit; width: 120px;
+                                              border-radius: 5px;background: #092169;font-size: 13px;color: #FFFFFF"
+                                              value="Iniciar Sesión" onclick="PF('IniciarSesion').show();" ajax="true" > 
+
+                            </p:commandButton>
+                                    
+                                <h:link rendered="#{auxiliar.estadoNombresUsuario}" id="opcionesusuario" style="text-decoration: none;color:#FFFFFF; ">
+                                    user
+                                    <p:graphicImage style="width:20px; margin:0;margin-left: 5px;" library="img" name="usuario.png"/>
+                                </h:link>
+                                <p:menu rendered="#{auxiliar.estadoNombresUsuario}" overlay="true" trigger="opcionesusuario"  my="left top" at="left bottom">        
+                                    <p:menuitem value="Mi Perfil" />
+                                    <p:menuitem value="Cerrar Sesión" outcome="/index"/>
+                                </p:menu>                           
+                            </h:form>
+                        </ui:insert>                       
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="bottom">
+
+                </div>                
+                <nav id="mainNav">                       
+                    <ui:insert name="menuprincipal">
+                        <ul>
+                            <li><span class="punta"></span><p:link outcome="/index" value="Inicio"/></li>
+                            <li><span class="punta"></span><p:link  value="Item 1"/></li>
+                            <!--<li><span class="punta"></span><p:link  value="Item 2"/></li>-->
+                            <li><span class="punta"></span><p:link outcome="/usuario/asistencia/asistencia-de-usuario" value="Asistencia personal"/></li>
+                            <li><span class="punta"></span><p:link  outcome="/usuario/contenidos/noticias" value="Contenidos"/></li>
+                            <li><span class="punta"></span><p:link  outcome="/usuario/medidas/consultaTest" value="Consultar Test"/></li>
+                        </ul>
+                    </ui:insert>           
+                </nav>                
+            </div>
+        </header>
+
+        <section id="contenido">
+            <div class="contenedor">                
+                <ui:insert name="title">Default Title</ui:insert>  
+                <ui:insert name="body">Default Body</ui:insert>
+                <div class="clear"></div>
+            </div>
+        </section>
+
+        <footer id="mainFooter">
+            <div class="contenedor">
+                <div class="separador"></div>
+                <div class="pie">
+                    <div class="decoracion izq"></div>
+                    <div class="decoracion der"></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </footer>
+        <h:form>
+        <p:dialog   header="Hora Saludable" showEffect="scale" modal="true"  widgetVar="IniciarSesion" width="650">
+                                    
+                                        <p:panel id="panel" header="Iniciar sesion">
+
+                                            <p:messages id="msgs" />
+
+                                            <h:panelGrid columns="3" cellpadding="5">
+                                                <p:outputLabel for="firstname" value="Usuario:" />
+                                                <p:inputText id="firstname" value="#{userView.firstname}" required="true" label="Firstname" requiredMessage="Ingrese nombre de Usuario">
+                                                    <f:validateLength minimum="2" />
+                                                </p:inputText>
+                                                <p:message for="firstname" display="icon" />
+                                                <p:outputLabel for="lastname" value="Contraseña:" />
+                                                <p:inputText id="lastname" value="#{userView.lastname}" label="Lastname" required="true" requiredMessage="Ingrese una contraseña">
+                                                    <f:validateLength minimum="2" />
+                                                    <p:ajax update="msgLastname" event="keyup" />
+                                                </p:inputText>
+                                                <p:message for="lastname" id="msgLastname" display="icon" />
+                                            </h:panelGrid>
+                                            <p:link outcome="/usuario/recuperarcontrasenia/recuperarContrasenia" value="¿Has olvidado tu contraseña?">
+                                                <f:param name="productId" value="10" />
+                                            </p:link>
+                                            <br/>
+                                            <br/>
+                                            <p:commandButton value="Iniciar Sesion" update="panel" actionListener="#{userView.save}" icon="ui-icon-check" />
+                                        </p:panel>
+                                    
+                                     
+                                 </p:dialog> 
+        
+        </h:form>
+        
+        
+    </h:body>
+</html>

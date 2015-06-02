@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./plantillaPrincipal.xhtml">
+
+            <ui:define name="tituloPagina">
+                Inicio
+            </ui:define>
+
+            <ui:define name="botonesSesion">
+                <h:form id="sesionForm">
+                    <p:growl id="growl" showDetail="true" sticky="false" life="10000"/> 
+                    <p:commandLink id="iniciarSesionButton"   value="Iniciar Sesion" style="text-decoration: none;color:#FFFFFF;"
+                                   oncomplete="PF('IniciarSesionDialog').show()"/>
+                </h:form>
+
+                <ui:include src="usuario/IniciarSesion.xhtml"/>
+                <ui:include src="usuario/SelRol.xhtml"/>
+
+            </ui:define>
+
+            <ui:define name="contenido">
+                <h:form id="form">
+
+                    <p:growl id="msgs" showDetail="true" />
+
+                    <p:tabView>
+                        
+                        <p:tab title="Proyectos" >
+                            <p:outputPanel id="tabProyectos">
+                                <p:panel header="Lista de Proyectos">
+                                    <p:dataTable id="datalist" value="#{newJSFManagedBean.items}" var="item"
+                                                 selectionMode="single" selection="#{newJSFManagedBean.selected}"
+                                                 paginator="true"
+                                                 rowKey="#{item.usuid}"
+                                                 rows="10"
+                                                 rowsPerPageTemplate="10,20,30,40,50"                                                 
+                                                 >
+
+                                        <p:ajax event="rowSelect"   update="createButton viewButton editButton "/>
+                                        <p:ajax event="rowUnselect" update="createButton viewButton editButton "/>
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Titulo"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.usunombreusuario}"/>
+                                        </p:column>
+
+                                        <f:facet name="footer">
+                                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="Agregar Nuevo" />
+                                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver"
+                                                             oncomplete="PF('ProyectoViewDialog').show()" disabled="#{empty newJSFManagedBean.selected}"/>
+                                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Editar"
+                                                             oncomplete="PF('ProyectoEditDialog').show()" disabled="#{empty newJSFManagedBean.selected}"/>
+
+
+                                        </f:facet>
+                                    </p:dataTable>
+                                </p:panel>
+                            </p:outputPanel>
+
+
+                        </p:tab>
+
+
+                        <p:tab title="Inicio">
+                            <center>
+                                <h2>Pasos para seguir la realizacion de un trabajo de grado</h2>
+                                <h:panelGrid style="margin-top:20px" cellpadding="10" >
+                                    <p:row >
+                                        <p:graphicImage library="imgApp" name="workflow.gif" />
+                                    </p:row>
+                                    <p:row>
+                                        <p:column>
+                                            <p:commandButton value="Visualizar"/>
+                                        </p:column>
+                                        <p:column>
+                                            <p:commandButton value="Descargar"/>
+                                        </p:column>
+                                    </p:row>
+                                </h:panelGrid>
+                            </center>
+                        </p:tab>
+                        <p:tab title="Proyectos de Grado">
+                            <h:form id="ProcesodegradoListForm">
+                                <p:panel header="Listado proyectos de grado">
+                                    <p:dataTable id="datalist" value="#{proyectoController.lstProcesogrado}" var="item"
+                                                 selectionMode="single" selection="#{proyectoController.objProcesogrado}"
+                                                 paginator="true"
+                                                 rowKey="#{item.procid}"
+                                                 rows="10"
+                                                 rowsPerPageTemplate="10,20,30,40,50"
+                                                 >
+
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Id"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.procid}"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">
+                                                <h:outputText value="Tiulo"/>
+                                            </f:facet>
+                                            <h:outputText value="#{item.proctitulo}"/>
+                                        </p:column>
+
+                                    </p:dataTable>
+                                </p:panel>
+                            </h:form>
+
+                        </p:tab>
+
+                    </p:tabView>
+
+                </h:form>
+            </ui:define>
+           
+        </ui:composition>
+
+    </body>
+
+</html>

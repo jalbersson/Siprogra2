@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DialgoRemisionTrabajoF" widgetVar="DialgoRemisionTrabajoFinal" modal="true" resizable="false" appendTo="@(body)" showEffect="click" hideEffect="blind">
+            <h:form id="RemisionTrabajoFinalForm">
+                <p:panel header="Acta de Resolución de Aprobación del Anteproyecto" footer="">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Titulo del trabajo de grado:"/>
+                            <p:inputText value="#{proyectoController.formatoG.titulo}" required="true" requiredMessage="Campo obligatorio"/>
+                            <p:outputLabel value="Fecha de sustentación:"></p:outputLabel>
+                            <p:calendar required="true" requiredMessage="Campo Obligatorio" value="#{proyectoController.formatoG.fechaSustentacion}"></p:calendar>
+                            <p:outputLabel value="Aprueba?:"></p:outputLabel>
+                            <p:inputText value="#{proyectoController.formatoG.aprobado}" required="true" requiredMessage="Campo obligatorio"></p:inputText>
+                            <p:outputLabel value="Se deben realizar ajustes?:"></p:outputLabel>
+                            <p:inputText value="#{proyectoController.formatoG.ajustes}" required="true" requiredMessage="Campo obligatorio"></p:inputText>
+                            <p:outputLabel value="Fecha de la constancia:"></p:outputLabel>
+                            <p:calendar required="true" requiredMessage="Campo Obligatorio" value="#{proyectoController.formatoG.fechaConstancia}"></p:calendar>
+                            <p:outputLabel value="Docente director:"></p:outputLabel>
+                            <p:inputText value="#{proyectoController.formatoG.director}" required="true" requiredMessage="Campo obligatorio"></p:inputText>
+                            <p:outputLabel value="Jurado coordinador:"></p:outputLabel>
+                            <p:inputText value="#{proyectoController.formatoG.juradoCoordinador}" required="true" requiredMessage="Campo obligatorio"></p:inputText>
+                            <p:outputLabel value="Jurado:"></p:outputLabel>
+                            <p:inputText value="#{proyectoController.formatoG.jurado}" required="true" requiredMessage="Campo obligatorio"></p:inputText>
+                            <p:outputLabel value="Acuerdo 41/89, recibo de tesorería No. :" ></p:outputLabel>
+                            <p:inputText value="#{proyectoController.formatoG.numeroRecibo}" required="true" requiredMessage="Campo obligatorio"></p:inputText>
+                        </p:panelGrid>
+                    <p:commandButton action="#{proyectoController.crearRemisionFinal()}" value="Guardar"/>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

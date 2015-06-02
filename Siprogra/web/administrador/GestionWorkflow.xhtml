@@ -1,0 +1,238 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../plantillas/frontEndAdministrador.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="titulo">
+        Gestión del Workflow
+    </ui:define>
+
+    <ui:define name="CuadroDeBotonesSesion">
+        <h:form id="botonesSesionForm">
+            Bienvenido, #{usuarioController.login}
+            <p:commandLink id="cerrarSesionButton" action="#{usuarioController.cerrarSesion()}"  value="Cerrar Sesion" style="text-decoration: none;color:#FFFFFF;" />
+        </h:form>
+    </ui:define>
+
+    <ui:define name="title">
+
+    </ui:define>
+
+    <ui:define name="body">
+        <p:tabView orientation="left">
+            <p:tab title="Gestión de Roles">
+                <h1>Roles</h1>
+                Selecione un rol existente para editar su nombre<br/><br/>
+                Tabla de roles<br/>
+                <h:form id="formRoles">
+                    <p:dataTable value="#{consultasController.listaRoles}" var="Roles" paginator="true" rows="10" editable="true">
+                        <p:ajax event="rowEdit"  listener="#{edicionController.editarRol}"/>                            
+                        <p:ajax event="rowEditCancel" listener="#{edicionController.CancelarEdicion}"/>
+                        <p:column headerText="Rol">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{Roles.rolnombre}"/></f:facet>
+                                <f:facet name="input">
+                                    <p:inputText  value="#{Roles.rolnombre}"/>   
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Estado">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{Roles.rolestado}"/></f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu  value="#{Roles.rolestado}">   
+                                        <f:selectItem itemLabel="Activo" itemValue="Activo" />                                    
+                                        <f:selectItem itemLabel="Inactivo" itemValue="Inactivo" />                                
+                                    </p:selectOneMenu>                       
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column width="20">
+                            <p:rowEditor/>
+                        </p:column>
+                        <p:column width="20">
+                            <p:commandLink title="Eliminar" onclick="PF('#{Roles.rolid}').show()"><h:graphicImage width="15" library="img" name="eliminar.png"/></p:commandLink>
+                            <p:dialog style="text-align: center;" widgetVar="#{Roles.rolid}">
+                                <p:outputLabel style="font-size:15px;font-weight: bold; " value="¿Esta seguro que desea eliminar el Rol?"/>
+                                <br></br>
+                                <br></br>
+                                <p:commandButton value="aceptar" actionListener="#{eliminacionController.eliminarRol(Roles)}"/>
+                                <p:commandButton value="cancelar" onclick="PF('#{Roles.rolid}').hide()"/>
+                            </p:dialog>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                <h:form>
+                    <p:commandLink onclick="PF('dialogoAñadir').show();">
+                        <p:graphicImage title="añadir" styleClass="BotonAñadir" library="img" name="añadir.jpg"/>
+                    </p:commandLink>
+                </h:form>
+                <p:dialog header="Añadir" hideEffect="explode" widgetVar="dialogoAñadir">
+                    <h:form>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Rol*:"></p:outputLabel>
+                            <p:inputText value="#{insercionesController.rol.rolnombre}"></p:inputText>
+                            <p:outputLabel value="Estado*:"></p:outputLabel>
+                            <p:inputText value="#{insercionesController.rol.rolestado}"></p:inputText>
+                            <p:commandButton actionListener="#{insercionesController.insertarRol}" value="Añadir"></p:commandButton>
+                            <p:commandButton value="Cancelar" style="margin-left: 50px;"></p:commandButton>
+                        </p:panelGrid>
+                    </h:form>
+                </p:dialog>                
+            </p:tab>
+            <p:tab title="Gestión de estados de ejecución">
+                <h2>Estados de ejecución</h2>
+                Selecciones un estado existente para editar o cree un nuevo estado de ejecución.<br></br>
+                <h3>Tabla de estados de ejecución</h3>
+                <h:form id="formEtapas">
+                    <p:dataTable var="Etapas" value="#{consultasController.listaFases}" paginator="true" rows="10" editable="true">
+                        <p:ajax event="rowEdit"  listener="#{edicionController.editarEtapa}"/>                            
+                        <p:ajax event="rowEditCancel" listener="#{edicionController.CancelarEdicion}"/>
+                        <p:column headerText="Etapas de la ejecución">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{Etapas.fasnombre}"/></f:facet>
+                                <f:facet name="input">
+                                    <p:inputText  value="#{Etapas.fasnombre}"/>   
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Estado">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{Etapas.fasestado}"/></f:facet>
+                                <f:facet name="input">
+                                    <p:selectOneMenu  value="#{Etapas.fasestado}">   
+                                        <f:selectItem itemLabel="Activo" itemValue="Activo" />                                    
+                                        <f:selectItem itemLabel="Inactivo" itemValue="Inactivo" />                                
+                                    </p:selectOneMenu>                       
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column width="20">
+                            <p:rowEditor/>
+                        </p:column>
+                        <p:column width="20">
+                            <p:commandLink title="Eliminar" onclick="PF('#{Etapas.fasid}').show()"><h:graphicImage width="15" library="img" name="eliminar.png"/></p:commandLink>
+                            <p:dialog style="text-align: center;" widgetVar="#{Etapas.fasid}">
+                                <p:outputLabel style="font-size:15px;font-weight: bold; " value="¿Esta seguro que desea eliminar la etapa?"/>
+                                <br></br>
+                                <br></br>
+                                <p:commandButton value="aceptar" actionListener="#{eliminacionController.eliminarFase(Etapas)}"/>
+                                <p:commandButton value="cancelar" onclick="PF('#{Etapas.fasid}').hide()"/>
+                            </p:dialog>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                <p:commandLink onclick="PF('dialogoAñadir2').show();">
+                    <p:graphicImage title="añadir" styleClass="BotonAñadir" library="img" name="añadir.jpg"/>
+                </p:commandLink>
+                <p:dialog header="Añadir" hideEffect="explode" widgetVar="dialogoAñadir2">
+                    <h:form>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Etapa de la ejecución*:"></p:outputLabel>
+                            <p:inputText value="#{insercionesController.fase.fasnombre}"></p:inputText>
+                            <p:outputLabel value="Estado*:"></p:outputLabel>
+                            <p:inputText value="#{insercionesController.fase.fasestado}"></p:inputText>
+                            <p:commandButton value="Añadir" actionListener="#{insercionesController.insertarFase}"></p:commandButton>
+                            <p:commandButton value="Cancelar" style="margin-left: 50px;"></p:commandButton>
+                        </p:panelGrid>
+                    </h:form>
+                </p:dialog>
+            </p:tab>
+            <p:tab title="Gestión de responsabilidades y restriciones">
+                <h2>Responsabilidades y Restricciones</h2>
+                Aquí podrá modificar las responsabilidades de los roles o las restricciones en el workflow.<br></br>
+                <h3>Tabla de responsabilidades y restricciones</h3>
+                <h:form id="formRestricciones">
+                    <p:dataTable var="Restricciones" value="#{consultasController.listaRestricciones}" paginator="true" rows="6" editable="true">
+                        <p:ajax event="rowEdit"  listener="#{edicionController.editarRestriccion}"/>                            
+                        <p:ajax event="rowEditCancel" listener="#{edicionController.CancelarEdicion}"/>
+                        <p:column headerText="Restricción/Responsabilidad">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{Restricciones.resdescripcion}"/></f:facet>
+                                <f:facet name="input">
+                                    <p:inputText  value="#{Restricciones.resdescripcion}"/>   
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column headerText="Etapa">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{Restricciones.actid.fasid.fasnombre}"/></f:facet>
+                                <f:facet name="input">
+                                    <p:inputText  value="#{Restricciones.actid.fasid.fasnombre}"/>   
+                                </f:facet>
+                            </p:cellEditor>
+                        </p:column>
+                        <p:column width="20">
+                            <p:rowEditor/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+                <p:commandLink onclick="PF('dialogoAñadir3').show();">
+                    <p:graphicImage title="añadir" styleClass="BotonAñadir" library="img" name="añadir.jpg"/>
+                </p:commandLink>
+                <p:dialog header="Añadir" hideEffect="explode" widgetVar="dialogoAñadir3">
+                    <h:form>
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Restricción/Responsabilidad:"></p:outputLabel>
+                            <p:inputText value="#{insercionesController.restriccion.resdescripcion}"></p:inputText>
+                            <p:outputLabel value="Etapa:"></p:outputLabel>
+                            <p:inputText value="#{insercionesController.restriccion.actid.fasid.fasnombre}"></p:inputText>
+                            <p:commandButton value="Añadir" actionListener="#{insercionesController.insertarRestriccion}"></p:commandButton>
+                            <p:commandButton value="Cancelar" style="margin-left: 50px;"></p:commandButton>
+                        </p:panelGrid>
+                    </h:form>
+                </p:dialog>
+            </p:tab>
+            <p:tab title="Gestión de documentos">
+                <h2>Documentos asociados</h2>
+                Aquí podra editar o crear un nuevo documento o formato asociado al proceso de trabajo de grado.<br></br>
+                <h3>Tabla de documentos/formatos</h3>
+                <p:dataTable var="Formato" value="#{consultasController.listaDocumentos}" paginator="true" rows="6">
+                    <p:column headerText="Documento/formato">
+                        #{Formato.pronombre}
+                    </p:column>
+                    <p:column headerText="Etapa">
+                        #{Formato.actid.fasid.fasnombre}
+                    </p:column>
+                    <p:column headerText="Responsable">    
+                        #{Formato.rolid.rolnombre}
+                    </p:column>
+                </p:dataTable>
+                <p:commandLink onclick="PF('dialogoAñadir4').show();">
+                    <p:graphicImage title="añadir" styleClass="BotonAñadir" library="img" name="añadir.jpg"/>
+                </p:commandLink>
+                <p:dialog header="Añadir" hideEffect="explode" widgetVar="dialogoAñadir4">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Documento/Formato:"></p:outputLabel>
+                        <p:inputText></p:inputText>
+                        <p:outputLabel value="Etapa:"></p:outputLabel>
+                        <p:inputText></p:inputText>
+                        <p:outputLabel value="Responsable:"></p:outputLabel>
+                        <p:inputText></p:inputText>
+                        <p:commandButton value="Añadir"></p:commandButton>
+                        <p:commandButton value="Cancelar" style="margin-left: 50px;"></p:commandButton>
+                    </p:panelGrid>
+                </p:dialog>
+                <p:commandLink onclick="PF('dialogoEditar4').show();">
+                    <p:graphicImage title="Editar" styleClass="BotonAñadir" library="img" name="editar.png"/>
+                </p:commandLink>
+                <p:dialog header="Editar" hideEffect="explode" widgetVar="dialogoEditar4">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Documento/Formato:"></p:outputLabel>
+                        <p:inputText value="Formato B"></p:inputText>
+                        <p:outputLabel value="Etapa:"></p:outputLabel>
+                        <p:inputText value="Evaluación del anteproyecto"></p:inputText>
+                        <p:outputLabel value="Responsable:"></p:outputLabel>
+                        <p:inputText value="Evaluador"></p:inputText>
+                        <p:commandButton value="Añadir"></p:commandButton>
+                        <p:commandButton value="Cancelar" style="margin-left: 50px;"></p:commandButton>
+                    </p:panelGrid>
+                </p:dialog>
+            </p:tab>
+        </p:tabView>
+    </ui:define>
+
+</ui:composition>

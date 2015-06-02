@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProyectoCreateDlg" widgetVar="ProyectoCreateDialog" modal="true" resizable="false" appendTo="@(body)" 
+                  showEffect="click" hideEffect="blind">
+            <h:form id="ProyectoCreateForm">
+                <p:panel header="Formato A" footer="">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2">
+                            <p:outputLabel value="Titulo:" for="titulo" />
+                            <p:inputText id="titulo" value="#{proyectoController.formatoA.titulo}" required="true" 
+                                         requiredMessage="Campo obligatorio"/>
+
+                            <h:outputLabel for="numEstudiantes" value="Numero de estudiantes:" />  
+                            <p:selectOneMenu id="numEstudiantes" value="#{proyectoController.formatoA.numeroEstudiantes}"
+                                             required="false" requiredMessage="Campo obligatorio">
+                                <f:selectItem itemLabel="1" itemValue="1" />  
+                                <f:selectItem itemLabel="2" itemValue="2" />  
+                            </p:selectOneMenu>
+
+                            <h:outputLabel for="objetivos" value="Objetivos:" />  
+                            <p:inputText id="objetivos" value="#{proyectoController.formatoA.objetivos}" required="false" 
+                                         label="Usuario" requiredMessage="Campo obligatorio"  >  
+                            </p:inputText>
+
+                            <h:outputLabel for="aporte" value="Aportes o contribucion a las lineas de investigación y desarrollo o temas de interes del departamento:" />  
+                            <p:inputText id="aporte" value="#{proyectoController.formatoA.contribucion}" required="false" 
+                                         requiredMessage="Campo requerido"/>
+
+                            <h:outputLabel for="tiempoRealizacion" value="Tiempo estimado de realización:" />  
+                            <p:inputText id="tiempoRealizacion" value="#{proyectoController.formatoA.tiempoEstimado}" required="false" 
+                                         label="Usuario" requiredMessage="Campo obligatorio" >  
+                            </p:inputText>
+
+                            <h:outputLabel for="conEntrega" value="Condiciones de entrega:" />  
+                            <p:inputText id="conEntrega" value="#{proyectoController.formatoA.condicionesEntrega}" required="false" 
+                                         label="Usuario" requiredMessage="Campo obligatorio"  >  
+                            </p:inputText>
+
+                            <h:outputLabel for="recursos" value="Recursos requeridos:" />  
+                            <p:inputText id="recursos" value="#{proyectoController.formatoA.recursos}" required="false" 
+                                         label="Usuario" requiredMessage="Campo obligatorio"  >  
+                            </p:inputText>
+
+                            <h:outputLabel for="fuInformacion" value="Definicion de fuentes de financiacion:" />  
+                            <p:inputText id="fuInformacion" value="#{proyectoController.formatoA.fuentesFinanciacion}" required="false" 
+                                         label="Usuario" requiredMessage="Campo obligatorio"  >  
+                            </p:inputText>
+
+                            <h:outputLabel for="observaciones" value="Observaciones:" />  
+                            <p:inputText id="observaciones" value="#{proyectoController.formatoA.observaciones}" required="false" 
+                                         label="Usuario" requiredMessage="Campo obligatorio"  >  
+                            </p:inputText>
+
+                            <f:facet name="footer">
+                                <p:commandButton action="#{proyectoController.crearFormatoA()}" value="Guardar" 
+                                                 update="display,:ProyectoListForm,:growl, :ProyectoListForm:tabView:tabProyectos" 
+                                                 />
+                            </f:facet>
+                        </p:panelGrid>
+                    </h:panelGroup>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

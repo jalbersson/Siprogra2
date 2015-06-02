@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="addAntPDlg" widgetVar="addAntPDialog" modal="true" resizable="false" appendTo="@(contenido)"
+                  showEffect="puff" hideEffect="size">
+            <h:form id="addAntPForm">
+                <p:panel header="Agregar Anteproyecto" footer="">
+                    <h:panelGroup id="display">
+                        <p:panelGrid columns="2" >
+                            
+                            <p:outputLabel value="Titulo: " for="titulo" />                            
+                            <p:inputText id="titulo" value="#{proyectoController.titulo}" required="true" 
+                                         requiredMessage="Campo obligatorio"/>
+                            
+                            <p:outputLabel value="Archivo"/>                            
+                            <h:form>
+                                <p:fileUpload fileUploadListener="#{proyectoController.seleccionarArchivo}" mode="advanced" update=":growl, @this" invalidFileMessage="Archivo no valido"
+                                              sizeLimit="5120000" allowTypes="/(\.|\/)(pdf|jpe?g)$/" label="Seleccionar" cancelLabel="Cancelar" uploadLabel="Aceptar"
+                                              />  
+                            </h:form>  
+                                                        
+                            <f:facet name="footer">
+                                <p:commandButton actionListener="#{proyectoController.agregarAnteproyecto()}" value="Subir Anteproyecto" update="display,:growl"/>
+                            </f:facet>
+                        </p:panelGrid>
+                    </h:panelGroup>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
