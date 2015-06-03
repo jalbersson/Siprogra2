@@ -80,7 +80,7 @@ public class Usuario implements Serializable {
     @Size(max = 200)
     @Column(name = "USUAREA")
     private String usuarea;
-    @ManyToMany(mappedBy = "usuarioList", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "usuarioList", fetch = FetchType.LAZY)
     private List<Procesodegrado> procesodegradoList;
     @ManyToMany(mappedBy = "usuarioList", fetch = FetchType.EAGER)
     private List<Rol> rolList;

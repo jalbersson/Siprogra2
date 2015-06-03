@@ -65,7 +65,7 @@ public class Procesodegrado implements Serializable {
     @JoinTable(name = "INVOLUCRA", joinColumns = {
         @JoinColumn(name = "PROCID", referencedColumnName = "PROCID")}, inverseJoinColumns = {
         @JoinColumn(name = "PROID", referencedColumnName = "PROID")})
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Productodetrabajo> productodetrabajoList;
     @JoinColumn(name = "FLUID", referencedColumnName = "FLUID")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)

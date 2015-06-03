@@ -66,7 +66,7 @@ public class Fase implements Serializable {
     private List<Flujo> flujoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fasid", fetch = FetchType.EAGER)
     private List<Actividad> actividadList;
-    @OneToMany(mappedBy = "fasFasid", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "fasFasid", fetch = FetchType.LAZY)
     private List<Fase> faseList;
     @JoinColumn(name = "FAS_FASID", referencedColumnName = "FASID")
     @ManyToOne(fetch = FetchType.EAGER)

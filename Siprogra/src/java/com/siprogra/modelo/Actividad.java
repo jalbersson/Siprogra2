@@ -49,9 +49,9 @@ public class Actividad implements Serializable {
     @Size(min = 1, max = 500)
     @Column(name = "ACTNOMBRE")
     private String actnombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "actid", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "actid", fetch = FetchType.LAZY)
     private List<Restriccion> restriccionList;
-    @OneToMany(mappedBy = "actActid", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "actActid", fetch = FetchType.LAZY)
     private List<Actividad> actividadList;
     @JoinColumn(name = "ACT_ACTID", referencedColumnName = "ACTID")
     @ManyToOne(fetch = FetchType.EAGER)
@@ -59,7 +59,7 @@ public class Actividad implements Serializable {
     @JoinColumn(name = "FASID", referencedColumnName = "FASID")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Fase fasid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "actid", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "actid", fetch = FetchType.LAZY)
     private List<Productodetrabajo> productodetrabajoList;
 
     public Actividad() {

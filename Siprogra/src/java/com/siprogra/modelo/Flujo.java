@@ -50,12 +50,12 @@ public class Flujo implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "FLUNOMBRE")
     private String flunombre;
-    @ManyToMany(mappedBy = "flujoList", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "flujoList", fetch = FetchType.LAZY)
     private List<Fase> faseList;
     @JoinTable(name = "GESTIONA", joinColumns = {
         @JoinColumn(name = "FLUID", referencedColumnName = "FLUID")}, inverseJoinColumns = {
         @JoinColumn(name = "ADMID", referencedColumnName = "ADMID")})
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Administrador> administradorList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "fluid", fetch = FetchType.EAGER)
     private List<Procesodegrado> procesodegradoList;

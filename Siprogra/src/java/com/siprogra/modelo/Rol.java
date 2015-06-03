@@ -62,7 +62,7 @@ public class Rol implements Serializable {
         @JoinColumn(name = "USUID", referencedColumnName = "USUID")})
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Usuario> usuarioList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rolid", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rolid", fetch = FetchType.LAZY)
     private List<Productodetrabajo> productodetrabajoList;
 
     public Rol() {
