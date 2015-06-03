@@ -8,9 +8,8 @@
 
     <ui:composition>
         <p:dialog id="DialgoPDF" widgetVar="DialgoVerPDF" modal="true" resizable="false" appendTo="@(body)" showEffect="click" hideEffect="blind">
-            <h:form>
-                <object type="application/pdf" data="../resources/pdf/cars.pdf" height="600px" width="800px" ></object>
-            </h:form>
+            
+            <p:media value="/resources/pdf/4416.pdf" player="pdf" width="100%" height="800px" />
         </p:dialog>
     </ui:composition>
 </html>

@@ -16,10 +16,11 @@ import javax.persistence.Query;
 
 /**
  *
- * @author jalber
+ * @author elkin
  */
 @Stateless
 public class ParametroFacade extends AbstractFacade<Parametro> {
+
     @PersistenceContext(unitName = "SiprograPU")
     private EntityManager em;
 
@@ -31,26 +32,26 @@ public class ParametroFacade extends AbstractFacade<Parametro> {
     public ParametroFacade() {
         super(Parametro.class);
     }
-    public boolean buscarPorProdutoTrabajoId(BigDecimal proid)
-    {
+
+    public boolean buscarPorProdutoTrabajoId(BigDecimal proid) {
         Query query = getEntityManager().createNamedQuery("Parametro.findByProid");
         query.setParameter("proid", proid);
         List<Parametro> resultList = query.getResultList();
-        
+
         return !resultList.isEmpty();
-    }    
-     public List<Parametro> buscarRetornarPorProdutoTrabajoId(BigDecimal proid)
-    {
+    }
+
+    public List<Parametro> buscarRetornarPorProdutoTrabajoId(BigDecimal proid) {
         Query query = getEntityManager().createNamedQuery("Parametro.findByProid");
         query.setParameter("proid", proid);
         List<Parametro> resultList = query.getResultList();
-        
+
         return resultList;
     }
-   public BigInteger maximoParmetroID()
-   {
-       Query query = getEntityManager().createNamedQuery("Parametro.findMaxParid"); 
-       BigInteger result = (BigInteger)query.getSingleResult(); 
-       return result;
-   }
+
+    public BigInteger maximoParmetroID() {
+        Query query = getEntityManager().createNamedQuery("Parametro.findMaxParid");
+        BigInteger result = (BigInteger) query.getSingleResult();
+        return result;
+    }
 }

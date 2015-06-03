@@ -14,7 +14,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author jalber
+ * @author elkin
  */
 @Stateless
 public class RestriccionFacade extends AbstractFacade<Restriccion> {
@@ -29,6 +29,7 @@ public class RestriccionFacade extends AbstractFacade<Restriccion> {
     public RestriccionFacade() {
         super(Restriccion.class);
     }
+    
     public BigDecimal maximaRestriccion() 
     {
         Query query = getEntityManager().createNamedQuery("Restriccion.maximoId");

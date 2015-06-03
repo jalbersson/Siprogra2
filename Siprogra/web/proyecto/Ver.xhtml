@@ -19,15 +19,23 @@
                                 <h:outputText value="#{proyectoController.objProcesogrado.proctitulo}" style="font-weight: bold;"/>                                    
                             </p:fieldset>
 
-                            <h:outputText value="#{proyectoController.objProcesogrado.proctitulo}" style="font-weight: bold;"/>
-                            <p:dataList value="#{proyectoController.objProcesogrado.usuarioList}" var="usr" type="ordered" 
-                                        emptyMessage="No hay estudiantes agregados">
-                                <f:facet name="header">
-                                    Estudiantes
-                                </f:facet>
-                                #{usr.usunombreusuario} #{usr.usuapellidos}, #{usr.usucorreo}
-                            </p:dataList>
+                            <p:fieldset legend="Director" style="margin-bottom:20px">
+                                <h:outputText value="#{proyectoController.obtenerFormatoA.director}"/>                                    
+                            </p:fieldset>
+                            
+                            <p:fieldset legend="Objetivos" style="margin-bottom:20px">
+                                <h:outputText value="#{proyectoController.obtenerFormatoA.objetivos}"/>                                    
+                            </p:fieldset>
 
+                            <p:fieldset legend="Estudiantes" style="margin-bottom:20px">
+                                <p:dataList value="#{proyectoController.lstEstudiantePro}" var="usr" type="ordered" 
+                                            emptyMessage="No hay estudiantes agregados">
+                                    <f:facet name="header">
+                                        Estudiantes
+                                    </f:facet>
+                                    #{usr.usunombreusuario} #{usr.usuapellidos}, #{usr.usucorreo}
+                                </p:dataList>                                   
+                            </p:fieldset>
 
                         </p:panelGrid>
                     </h:panelGroup>

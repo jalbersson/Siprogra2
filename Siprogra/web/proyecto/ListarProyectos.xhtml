@@ -12,7 +12,7 @@
                   hideEffect="blind" showEffect="click" width="800">
             <h:form id="listProyectosForm">
                 <p:panel header="Proyectos por asignar evaluadores" footer="">
-                    <p:dataTable id="datalistProyectos" value="#{proyectoController.lstProcesogrado}" var="item"
+                    <p:dataTable id="datalistProyectos" value="#{proyectoController.lstProyectosCoordinador}" var="item"
                                  selectionMode="single" selection="#{proyectoController.objProcesogrado}"
                                  paginator="true"
                                  rowKey="#{item.procid}"
@@ -27,7 +27,7 @@
                             <f:facet name="header">
                                 <h:outputText value="Titulo"/>
                             </f:facet>
-                            <h:outputText value="#{item.usuarioList}"/>
+                            <h:outputText value="#{item.proctitulo}"/>
                         </p:column>
 
                         <f:facet name="footer">

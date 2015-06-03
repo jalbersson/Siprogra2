@@ -14,7 +14,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author jalber
+ * @author elkin
  */
 @Stateless
 public class RolFacade extends AbstractFacade<Rol> {
@@ -29,6 +29,7 @@ public class RolFacade extends AbstractFacade<Rol> {
     public RolFacade() {
         super(Rol.class);
     }
+    
     public BigDecimal maximoRol() 
     {
         Query query = getEntityManager().createNamedQuery("Rol.maximoId");

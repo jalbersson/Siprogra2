@@ -71,7 +71,7 @@
                                                              actionListener="#{proyectoController.prepareAgregarAnte()}" rendered="#{proyectoController.ideaAprobada}"/>
 
                                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" update=":ProyectoViewForm"
-                                                             actionListener="#{proyectoController.pru()}" disabled="#{empty proyectoController.objProcesogrado}"/>
+                                                             oncomplete="PF('ProyectoViewDialog').show()" disabled="#{empty proyectoController.objProcesogrado}"/>
 
                                             <p:commandButton id="editButton"   icon="ui-icon-pencil" value="Editar" update=":ProyectoEditForm"
                                                              oncomplete="PF('ProyectoEditDialog').show()" disabled="#{empty proyectoController.objProcesogrado}"/>
@@ -82,7 +82,7 @@
                                             <p:confirmDialog message="Deseas eliminar el elemento seleccionado?" header="Confirmacion Borrado" severity="alert"
                                                              widgetVar="cd">
                                                 <p:commandButton icon="ui-icon-trash"  value="Aceptar" actionListener="#{proyectoController.borrar()}" 
-                                                                 update=":growl, datalistDirector, @this" oncomplete="PF('cd').hide()"/>
+                                                                 update=":growl, datalistDirector, @this, :tabView1:jefeDeptoForm:tabJefeDepto" oncomplete="PF('cd').hide()"/>
 
                                                 <p:commandButton value="Cancelar" onclick="PF('cd').hide();" type="button" />
                                             </p:confirmDialog>
@@ -230,7 +230,7 @@
                             </p:tab>
 
                             <p:tab title="Proyectos">
-                                <h:form>
+                                <h:form id="coorProyectosForm">
                                     <p:outputPanel id="tabCoordinadorProyectos">
                                         <p:panel header="Lista de Proyectos">
                                             <p:dataTable id="datalistCoordinadorProyectos" value="#{proyectoController.lstProyectosCoordinador}" var="item"

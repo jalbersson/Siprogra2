@@ -27,7 +27,8 @@
                             </h:form>  
                                                         
                             <f:facet name="footer">
-                                <p:commandButton actionListener="#{proyectoController.agregarAnteproyecto()}" value="Subir Anteproyecto" update="display,:growl"/>
+                                <p:commandButton actionListener="#{proyectoController.subirAnteproyecto()}" value="Subir Anteproyecto" update="display,:growl,
+                                                 :tabView1:directorForm:tabDirector, :tabView1:jefeDeptoForm:tabJefeDepto, :tabView1:tabView2:coorProyectosForm:tabCoordinadorProyectos"/>
                             </f:facet>
                         </p:panelGrid>
                     </h:panelGroup>

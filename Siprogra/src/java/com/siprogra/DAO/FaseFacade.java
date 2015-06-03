@@ -15,7 +15,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author jalber
+ * @author elkin
  */
 @Stateless
 public class FaseFacade extends AbstractFacade<Fase> {
@@ -30,12 +30,14 @@ public class FaseFacade extends AbstractFacade<Fase> {
     public FaseFacade() {
         super(Fase.class);
     }
+    
     public BigDecimal maximaFase() 
     {
         Query query = getEntityManager().createNamedQuery("Fase.maximaId");
         BigDecimal result = (BigDecimal) query.getSingleResult();
         return result;
     }
+    
     public String nombreFaseID(int id)
     {
         String n=id+"";

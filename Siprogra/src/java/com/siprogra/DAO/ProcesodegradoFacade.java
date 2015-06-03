@@ -6,6 +6,7 @@
 package com.siprogra.DAO;
 
 import com.siprogra.modelo.Procesodegrado;
+import java.math.BigDecimal;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -14,7 +15,7 @@ import javax.persistence.Query;
 
 /**
  *
- * @author jalber
+ * @author elkin
  */
 @Stateless
 public class ProcesodegradoFacade extends AbstractFacade<Procesodegrado> {
@@ -29,6 +30,7 @@ public class ProcesodegradoFacade extends AbstractFacade<Procesodegrado> {
     public ProcesodegradoFacade() {
         super(Procesodegrado.class);
     }
+    
     public Procesodegrado buscarPorTitulo(String titulo)
     {
         Query query = getEntityManager().createNamedQuery("Procesodegrado.findByProctitulo"); 
@@ -36,6 +38,7 @@ public class ProcesodegradoFacade extends AbstractFacade<Procesodegrado> {
         Procesodegrado result= (Procesodegrado)query.getSingleResult();
         return result;
     }
+    
     public List<Procesodegrado> buscarPorEstado(String estado)
     {
         Query query = getEntityManager().createNamedQuery("Procesodegrado.findByEstado"); 
@@ -43,4 +46,5 @@ public class ProcesodegradoFacade extends AbstractFacade<Procesodegrado> {
         List<Procesodegrado> result= (List<Procesodegrado>) query.getResultList();
         return result;
     }
+    
 }
