@@ -380,7 +380,7 @@ public class ProyectoController implements Serializable {
         objProcesogrado.getProductodetrabajoList().add(objProductotrabajo);
         objProcesogrado.setProcestado(new BigInteger("" + 0));
         lstFlujo = ejbFlujo.findAll();
-        //objFlujo = lstFlujo.get(1);
+        objFlujo = lstFlujo.get(1);
         objProcesogrado.setFluid(objFlujo);
         ejbProcesogrado.create(objProcesogrado);
 
