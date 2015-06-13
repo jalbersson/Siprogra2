@@ -31,8 +31,8 @@
                         </p:column>
 
                         <f:facet name="footer">
-                            <p:commandButton id="addEvaluadorButton" icon="ui-icon-plus"   value="Agregar Evaluador" actionListener="#{proyectoController.asignarEvaluador()}"
-                                             oncomplete="PF('cd').show()" disabled="#{empty proyectoController.objProcesogrado}"/>
+                            <p:commandButton id="addEvaluadorButton" icon="ui-icon-plus"   value="Agregar Evaluador" actionListener="#{proyectoController.prepareAsignarEvaluador()}"
+                                             update=":agregarEvaluadorForm" oncomplete="PF('agregarEvaluadorDialog').show()" disabled="#{empty proyectoController.objProcesogrado}"/>
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="Ver" update=":ProyectoViewForm"
                                              oncomplete="PF('ProyectoViewDialog').show()" disabled="#{empty proyectoController.objProcesogrado}"/>
 

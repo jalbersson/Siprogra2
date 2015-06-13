@@ -8,29 +8,21 @@
 
     <ui:composition>
 
-        <p:dialog id="addAntPDlg" widgetVar="addAntPDialog" modal="true" resizable="false" appendTo="@(contenido)"
-                  showEffect="puff" hideEffect="size">
-            <h:form id="addAntPForm">
-                <p:panel header="Agregar Anteproyecto" footer="">
-                    <h:panelGroup id="display">
-                        <p:panelGrid columns="2" >
-                            
-                            <p:outputLabel value="Titulo: " for="titulo" />                            
-                            <p:inputText id="titulo" value="#{proyectoController.titulo}" required="true" 
-                                         requiredMessage="Campo obligatorio"/>
-                            
-                            <p:outputLabel value="Archivo"/>                            
-                            <h:form>
-                                <p:fileUpload fileUploadListener="#{proyectoController.seleccionarArchivo}" mode="advanced" update=":growl, @this" invalidFileMessage="Archivo no valido"
-                                              sizeLimit="5120000" allowTypes="/(\.|\/)(pdf|jpe?g)$/" label="Seleccionar" cancelLabel="Cancelar" uploadLabel="Aceptar"
-                                              />  
-                            </h:form>  
-                                                        
-                            <f:facet name="footer">
-                                <p:commandButton actionListener="#{proyectoController.agregarAnteproyecto()}" value="Subir Anteproyecto" update="display,:growl"/>
-                            </f:facet>
-                        </p:panelGrid>
-                    </h:panelGroup>
+        <p:dialog id="agregarEvaluadorDlg" widgetVar="agregarEvaluadorDialog" modal="true" resizable="false" appendTo="@(body)" 
+                  showEffect="click" hideEffect="blind">
+            <h:form id="agregarEvaluadorForm">
+                <p:panel header="Agregar evaluador" footer="">
+                    <p:outputPanel>
+                        <h3>
+                            Desea agregar al docente #{proyectoController.objDocente.usunombres} #{proyectoController.objDocente.usuapellidos}
+                            al proyecto #{proyectoController.objProcesogrado.proctitulo}
+                        </h3>
+                    </p:outputPanel> 
+
+                    <f:facet name="footer">
+                        <p:commandButton actionListener="#{proyectoController.asignarEvaluador()}" value="Guardar" 
+                                         update="@this, :tabView1:jefeDeptoForm:tabJefeDepto, :tabView1:directorForm:tabDirector, :growl"  />
+                    </f:facet>
                 </p:panel>
             </h:form>
         </p:dialog>

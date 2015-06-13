@@ -55,7 +55,7 @@ public class Parametro implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "PARTIPO")
     private String partipo;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parid", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "parid", fetch = FetchType.LAZY)
     private List<Contenido> contenidoList;
     @JoinColumn(name = "PROID", referencedColumnName = "PROID")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)

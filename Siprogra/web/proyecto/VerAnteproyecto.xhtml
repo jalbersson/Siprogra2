@@ -9,7 +9,7 @@
         <p:dialog id="verAnteproyectoDlg" widgetVar="verAnteproyectoDialog" modal="true" resizable="false" appendTo="@(contenido)" header="Leer Anteproyecto"
                   showEffect="click" hideEffect="blind" width="800">
             <h:form id="verAnteproyectoForm">
-                <p:media value="/resources/pdf/Churn.pdf" player="pdf" width="100%" height="600px" />
+                <p:media value="/resources/pdf/#{proyectoController.anteproyecto}" player="pdf" width="100%" height="600px" />
             </h:form>
             
         </p:dialog>

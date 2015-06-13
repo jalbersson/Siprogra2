@@ -62,14 +62,14 @@ public class Fase implements Serializable {
     @JoinTable(name = "CONSTA", joinColumns = {
         @JoinColumn(name = "FASID", referencedColumnName = "FASID")}, inverseJoinColumns = {
         @JoinColumn(name = "FLUID", referencedColumnName = "FLUID")})
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Flujo> flujoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fasid", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fasid", fetch = FetchType.LAZY)
     private List<Actividad> actividadList;
     @OneToMany(mappedBy = "fasFasid", fetch = FetchType.LAZY)
     private List<Fase> faseList;
     @JoinColumn(name = "FAS_FASID", referencedColumnName = "FASID")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Fase fasFasid;
 
     public Fase() {

@@ -92,18 +92,7 @@
 
                         </p:tab>
 
-                        <p:tab title="Prueba">
-
-                            <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
-
-                            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
-                                <p:graphicImage name="/img/ajax-loader.gif" />
-                            </p:dialog>
-
-                            <h:form>
-                                <p:commandButton value="Send" icon="ui-icon-refresh" />
-                            </h:form>
-                        </p:tab>
+                        
                     </p:tabView>
 
                 </h:form>

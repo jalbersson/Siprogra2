@@ -55,10 +55,10 @@ public class Afecta implements Serializable {
     @Column(name = "VALCONTEO")
     private BigInteger valconteo;
     @JoinColumn(name = "PROID", referencedColumnName = "PROID", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Productodetrabajo productodetrabajo;
     @JoinColumn(name = "RESID", referencedColumnName = "RESID", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Restriccion restriccion;
 
     public Afecta() {

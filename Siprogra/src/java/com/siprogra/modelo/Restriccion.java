@@ -51,9 +51,9 @@ public class Restriccion implements Serializable {
     @Column(name = "RESDESCRIPCION")
     private String resdescripcion;
     @JoinColumn(name = "ACTID", referencedColumnName = "ACTID")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Actividad actid;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restriccion", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "restriccion", fetch = FetchType.LAZY)
     private List<Afecta> afectaList;
 
     public Restriccion() {
