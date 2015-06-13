@@ -46,10 +46,10 @@ public class Contenido implements Serializable {
     @Column(name = "CONDATOS")
     private String condatos;
     @JoinColumn(name = "PARID", referencedColumnName = "PARID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Parametro parid;
     @JoinColumn(name = "PROCID", referencedColumnName = "PROCID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Procesodegrado procid;
 
     public Contenido() {

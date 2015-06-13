@@ -52,7 +52,7 @@ public class Administrador implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "ADMCONTRASENIA")
     private String admcontrasenia;
-    @ManyToMany(mappedBy = "administradorList", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "administradorList", fetch = FetchType.EAGER)
     private List<Flujo> flujoList;
 
     public Administrador() {

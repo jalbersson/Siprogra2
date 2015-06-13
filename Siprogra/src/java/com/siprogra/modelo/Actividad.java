@@ -54,10 +54,10 @@ public class Actividad implements Serializable {
     @OneToMany(mappedBy = "actActid", fetch = FetchType.LAZY)
     private List<Actividad> actividadList;
     @JoinColumn(name = "ACT_ACTID", referencedColumnName = "ACTID")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Actividad actActid;
     @JoinColumn(name = "FASID", referencedColumnName = "FASID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Fase fasid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "actid", fetch = FetchType.LAZY)
     private List<Productodetrabajo> productodetrabajoList;

@@ -50,15 +50,15 @@ public class Productodetrabajo implements Serializable {
     @Size(min = 1, max = 500)
     @Column(name = "PRONOMBRE")
     private String pronombre;
-    @ManyToMany(mappedBy = "productodetrabajoList", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "productodetrabajoList", fetch = FetchType.EAGER)
     private List<Procesodegrado> procesodegradoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productodetrabajo", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productodetrabajo", fetch = FetchType.EAGER)
     private List<Afecta> afectaList;
     @JoinColumn(name = "ACTID", referencedColumnName = "ACTID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Actividad actid;
     @JoinColumn(name = "ROLID", referencedColumnName = "ROLID")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Rol rolid;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "proid", fetch = FetchType.EAGER)
     private List<Parametro> parametroList;

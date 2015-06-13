@@ -30,7 +30,9 @@
                             <p:fieldset legend="Estudiantes" style="margin-bottom:20px">
                                 <p:dataList value="#{proyectoController.lstEstudiantePro}" var="usr" type="ordered" 
                                             emptyMessage="No hay estudiantes agregados">
-                                    
+                                    <f:facet name="header">
+                                        Estudiantes
+                                    </f:facet>
                                     #{usr.usunombreusuario} #{usr.usuapellidos}, #{usr.usucorreo}
                                 </p:dataList>                                   
                             </p:fieldset>
